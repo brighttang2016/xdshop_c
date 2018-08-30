@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>扣款渠道</th>
+            <th>扣款日期</th>
+            <th>订单编号</th>
+            <th>发起扣款时间</th>
+            <th>完成扣款时间</th>
+            <th>扣款金额</th>
+            <th>扣款卡号</th>
+            <th>扣款结果</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in chargeLogList">
+            <td>{{item.reserver5}}</td>
+            <td>{{item.tranDate |mysqlDate }}</td>
+            <td>{{item.orderNo}}</td>
+            <td>{{item.chargeStartTime | mysqlDatetime}}</td>
+            <td>{{item.chargeEndTime | mysqlDatetime}}</td>
+            <td>{{item.chargeAmount}}</td>
+            <td>{{item.cardNo}}</td>
+            <td>{{item.chargeResult}} {{item.reserver1 != '' ? item.reserver1:""}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="has-divider has-divider--dark"></div>
+    <div class="toolbar">
+        <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+        </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+        <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+            <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+            </div>
+            <div>
+                <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                ng-model="paginationInfo.curPage"
+                                max-size="paginationInfo.maxSize"
+                                items-per-page="paginationInfo.pageSize" ng-change="queryChargeLog()"
+                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                last-text="&raquo;">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

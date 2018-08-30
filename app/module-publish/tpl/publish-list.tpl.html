@@ -1,0 +1,119 @@
+<div  ng-init="initPublishList()" ng-controller="PublishController">
+
+    <div class="panel_main">
+        <div class="data-table-container" >
+            <header class="data-table-header">
+                <div class="data-table-header__label">
+                    <span class="fs-title"><i class="fa fa-globe mr"></i>活动发布</span>
+                </div>
+                <div class="data-table-header__actions">
+                    <button class="btn btn-sm btn-default" type="button" ng-click="jumToAdd()"><i class="fa fa-plus m-r-sm"></i>新增发布</button>
+                </div>
+            </header>
+        </div>
+        <div class="form-horizontal">
+            <div>&nbsp;</div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">起始日期：</label>
+                <div class="col-sm-2">
+                    <p class="input-group">
+                        <input type="text" ng-model="vm.timeBegin" placeholder="请选择申请日期" class="form-control" uib-datepicker-popup="yyyy-MM-dd"  is-open="isTimeBeginOpened" datepicker-options="dateOptions"   close-text="关闭" current-text="今天" clear-text="清除" alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="isTimeBeginOpened=!isTimeBeginOpened"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+
+                <label class="col-sm-1 control-label">截止日期：</label>
+                <div class="col-sm-2">
+                    <p class="input-group">
+                        <input type="text" ng-model="vm.timeEnd" placeholder="请选择申请日期" class="form-control" uib-datepicker-popup="yyyy-MM-dd"  is-open="isTimeEndOpened" datepicker-options="dateOptions"   close-text="关闭" current-text="今天" clear-text="清除" alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="isTimeEndOpened=!isTimeEndOpened"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-sm-1 text-right">
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="queryList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="data-table-header">
+                <div class="data-table-header__label">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-2 text-left">
+                            <i class="fa fa-list m-r-sm"></i>活动发布列表：
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="data-table table table-bordered" cg-busy="{promise:loading,message:'正在查询，请稍后...'}">
+                <thead >
+                <tr>
+                    <th  style="width: 15%">ID</th>
+                    <th>标题</th>
+                    <th>总票数</th>
+                    <th>已售票数</th>
+                    <th>剩余票数</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>操作</th>
+                </tr>
+                <tbody>
+                </thead>
+                <tr ng-repeat="item in publishList">
+                    <td  style="width: 15%">{{item.id}}</td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.ticketTotal}}</td>
+                    <td>{{item.ticketSale}}</td>
+                    <td>{{item.ticketRemain}}</td>
+                    <td>{{item.timeBegin}}</td>
+                    <td>{{item.timeEnd}}</td>
+                    <td>
+                        <!--<button ng-if="item.isShowDetail" class="btn btn-xs btn-default" type="button" ng-click="applyDetail(item)"><i class="fa fa-edit m-r-sm"></i>详细</button>-->
+                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="publishDetail(item)"><i class="fa fa-edit m-r-sm"></i>详细</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                       <!-- <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        max-size="paginationInfo.maxSize"
+                                        items-per-page="paginationInfo.pageSize" ng-change="queryChargeLog()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>-->
+                        <ul uib-pagination total-items="paginationInfo.totalItem" ng-model="paginationInfo.curPage" max-size="paginationInfo.maxSize" class="pagination-sm" boundary-links="true" force-ellipses="true"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                            last-text="&raquo;"
+                            ng-change="queryList()"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

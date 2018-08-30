@@ -1,0 +1,156 @@
+<div  ng-init="initPublishList()" ng-controller="PublishController">
+
+    <form>
+            <textarea name="editor1" id="editor1" rows="10" cols="80">
+                请在此处编辑网页内容...
+            </textarea>
+        <script>
+            CKEDITOR.replace( 'editor1' );
+        </script>
+    </form>
+    <button class="btn btn-sm btn-default" type="button" ng-click="getRichText()"><i class="fa fa-plus m-r-sm"></i>获取富文本</button>
+    <div>
+        效果预览
+        <div id="richTextScan">
+        </div>
+    </div>
+
+    <div class="panel_main">
+        <div class="data-table-container" >
+            <header class="data-table-header">
+                <div class="data-table-header__label">
+                    <span class="fs-title"><i class="fa fa-globe mr"></i>GPS管理-采购申请单</span>
+                </div>
+                <div ng-if="isShowApplyAdd" class="data-table-header__actions">
+                    <button class="btn btn-sm btn-default" type="button" ui-sref="app.gpsms.apply.add"><i class="fa fa-plus m-r-sm"></i>新增采购申请单</button>
+                </div>
+            </header>
+        </div>
+        <div class="form-horizontal">
+            <div>&nbsp;</div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">经销商：</label>
+                <div class="col-sm-2">
+                    <select ng-disabled="isDisabledBranch" id="branchId" class="form-control selectpicker" data-live-search="true" ng-model="vm.branchId"
+                            ng-options="item.branchCode as (item.branchCode+'-'+item.branchName) for item in branchList" >
+                        <option value="">请选择经销商</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label">状态：</label>
+                <div class="col-sm-2">
+                    <select ng-model="vm.applyStatus" class="form-control">
+                        <option value="">请选择申请单状态</option>
+                        <option value="01">未提交</option>
+                        <option value="02">已提交</option>
+                        <option value="03">审核通过</option>
+                        <option value="04">审核拒绝</option>
+                        <option value="05">审批通过</option>
+                        <option value="06">审批拒绝</option>
+                      <!--  <option value="07">待发货</option>-->
+                        <option value="08">待收货</option>
+                        <option value="09">已收货</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label">申请编号：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"  ng-model="vm.applyId" placeholder="申请编号">
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">起始日期：</label>
+                <div class="col-sm-2">
+                    <p class="input-group">
+                        <input type="text" ng-model="vm.timeBegin" placeholder="请选择申请日期" class="form-control" uib-datepicker-popup="yyyy-MM-dd"  is-open="isTimeBeginOpened" datepicker-options="dateOptions"   close-text="Close" alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="isTimeBeginOpened=!isTimeBeginOpened"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+
+                <label class="col-sm-1 control-label">截止日期：</label>
+                <div class="col-sm-2">
+                    <p class="input-group">
+                        <input type="text" ng-model="vm.timeEnd" placeholder="请选择申请日期" class="form-control" uib-datepicker-popup="yyyy-MM-dd"  is-open="isTimeEndOpened" datepicker-options="dateOptions"   close-text="Close" alt-input-formats="altInputFormats"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="isTimeEndOpened=!isTimeEndOpened"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-sm-1 text-right">
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="queryList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="data-table-header">
+                <div class="data-table-header__label">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-2 text-left">
+                            <i class="fa fa-list m-r-sm"></i>采购申请单列表：
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="data-table table table-bordered" cg-busy="loading">
+                <thead >
+                <tr>
+                    <th  style="width: 15%">申请单编号</th>
+                    <th>经销商</th>
+                    <th>申请日期</th>
+                    <th>申请单状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in publishList">
+                    <td  style="width: 15%">{{item.accountName}}</td>
+                    <td>{{item.branchName}}</td>
+                    <td>{{item.applyTimeFormat}}</td>
+                    <td>{{item.applyStatusName}}</td>
+                    <td>
+                        <button ng-if="item.isShowDetail" class="btn btn-xs btn-default" type="button" ng-click="applyDetail(item)"><i class="fa fa-edit m-r-sm"></i>详细</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                       <!-- <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        max-size="paginationInfo.maxSize"
+                                        items-per-page="paginationInfo.pageSize" ng-change="queryChargeLog()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>-->
+                        <ul uib-pagination total-items="paginationInfo.totalItem" ng-model="paginationInfo.curPage" max-size="paginationInfo.maxSize" class="pagination-sm" boundary-links="true" force-ellipses="true"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                            last-text="&raquo;"
+                            ng-change="queryList()"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

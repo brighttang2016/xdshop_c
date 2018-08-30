@@ -1,0 +1,332 @@
+<!--还款信息-->
+    <form class="container-fluid m-t-md form-horizontal">
+        <div ng-include="'module_assetsmanage/tpl/form-loanbaseinfo.html'"/>
+        <fieldset class="scheduler-border" ng-if="loanCustApplyInfo.repayStatus!='hkzt05'">
+            <legend class="scheduler-border">基本应还信息</legend>
+            <div class="row m-t-md">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="financeAmt" class="col-sm-4 control-label">分期金额：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.financeAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="period" class="col-sm-4 control-label">分期手续费：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.serviceFee}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="financeAmt" class="col-sm-4 control-label">当期分期金额：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.currFinance}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="period" class="col-sm-4 control-label">当期分期手续费：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.currServiceFee}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div  class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="remainCapital" class="col-sm-4 control-label">剩余分期金额：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.remainCapital}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="remainCapital" class="col-sm-4 control-label">剩余分期手续费：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.remainInterest}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayModeDesc" class="col-sm-4 control-label">还款方式：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{loanCustApplyInfo.repayModeDesc}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="loanDate" class="col-sm-4 control-label">分期日期：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.insatllmentDate}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="otherAmount" class="col-sm-4 control-label">其他费用：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{loanCustNeedRepayInfo.otherAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="otherOverdueAmount" class="col-sm-4 control-label">其他费用罚息：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{loanCustNeedRepayInfo.otherOverdueAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-3">
+                     <div class="form-group form-group-sm">
+                         <label for="period" class="col-sm-4 control-label">当前应还合计(最优还款额)：</label>
+                         <div class="col-sm-8">
+                             <p class="form-control-static">
+                                 {{(baseInfoVo.currShouldPayAmount+
+                                 loanCustNeedRepayInfo.otherAmount+
+                                 loanCustNeedRepayInfo.otherOverdueAmount
+                                 ) | mathRound}}</p>
+                         </div>
+                     </div>
+                 </div>-->
+                <!--<div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="remainCapital" class="col-sm-4 control-label">剩余本金：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{loanCustNeedRepayInfo.remainCapital}}</p>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="stayAmount" class="col-sm-4 control-label">挂账金额：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{loanCustNeedRepayInfo.stayAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayInterest" class="col-sm-4 control-label">当前应还合计(最优还款额)：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static text-danger"><b>{{baseInfoVo.currShouldPayAmount}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="baseInfoVo.repayStatus == 'hkzt03'">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayInterest" class="col-sm-4 control-label">当期应还总额：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.currPayAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayCapital" class="col-sm-4 control-label">逾期应还总额：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{baseInfoVo.overduePayAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+
+        <fieldset class="scheduler-border" ng-if="loanCustApplyInfo.repayStatus=='hkzt05'">
+            <legend class="scheduler-border">核销信息</legend>
+            <div class="row m-t-md">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="financeAmt" class="col-sm-4 control-label">核销日期：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffDate |mysqlDate}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="period" class="col-sm-4 control-label">核销总额：</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffTotalAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayModeDesc" class="col-sm-4 control-label">剩余核销金额：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffRemainAmt}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="loanDate" class="col-sm-4 control-label">核销本金：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffCapital}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayCapital" class="col-sm-4 control-label">核销利息：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffInterest}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayInterest" class="col-sm-4 control-label">核销罚息：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffOverdue}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="repayOverdueAmount" class="col-sm-4 control-label">核销其他费用：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffOtherFee}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="otherAmount" class="col-sm-4 control-label">核销其他费用罚息：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffOtherOverdueAmount}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group form-group-sm">
+                        <label for="otherOverdueAmount" class="col-sm-4 control-label">核销未到期本金：</label>
+
+                        <div class="col-sm-8">
+                            <p class="form-control-static">{{writeOffData.writeoffNotyetCapital}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">联系人信息</legend>
+            <table class="data-table  table table-hover">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>关系</th>
+                    <th>是否知道购车</th>
+                    <th>地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in linkmans">
+                    <td>{{item.name}}</td>
+                    <td>
+                        <div class="input-append">
+                            <label class="form-control-static" phone-icon-directive id="newContact{{$index+1}}">{{item.mobile}}</label>
+                        </div>
+                    </td>
+                    <td>{{item.relation}}</td>
+                    <td>{{item.know}}</td>
+                    <td>{{item.address}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <!--<fieldset class="scheduler-border" >-->
+            <!--<legend class="scheduler-border">联系人信息</legend>-->
+            <!--<div ng-repeat="item in linkmans">-->
+                <!--<div class="row m-t-md">-->
+                    <!--<div class="col-md-3">-->
+                        <!--<div class="form-group form-group-sm">-->
+                            <!--<label for="financeAmt" class="col-sm-4 control-label">姓名：</label>-->
+
+                            <!--<div class="col-sm-8">-->
+                                <!--<p class="form-control-static">{{item.name}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-3">-->
+                        <!--<div class="form-group form-group-sm">-->
+                            <!--<label for="period" class="col-sm-4 control-label">电话：</label>-->
+
+                            <!--<div class="col-sm-8">-->
+                                <!--<p class="form-control-static">{{item.mobile}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-3">-->
+                        <!--<div class="form-group form-group-sm">-->
+                            <!--<label for="repayModeDesc" class="col-sm-4 control-label">关系：</label>-->
+
+                            <!--<div class="col-sm-8">-->
+                                <!--<p class="form-control-static">{{item.relation}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-3">-->
+                        <!--<div class="form-group form-group-sm">-->
+                            <!--<label for="loanDate" class="col-sm-4 control-label">是否知道购车：</label>-->
+
+                            <!--<div class="col-sm-8">-->
+                                <!--<p class="form-control-static">{{item.know}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-3">-->
+                        <!--<div class="form-group form-group-sm">-->
+                            <!--<label for="repayCapital" class="col-sm-4 control-label">地址：</label>-->
+
+                            <!--<div class="col-sm-8">-->
+                                <!--<p class="form-control-static">{{item.address}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</fieldset>-->
+
+    </form>
+
+

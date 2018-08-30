@@ -1,0 +1,332 @@
+<form class="container-fluid  form-horizontal" name="signForm" cg-busy="loading">
+    <div>
+        <div class="modal-header">
+                <span class="fs-title">
+                    <i class="fa fa-globe mr"></i>修改签约信息
+                </span>
+                <span class="fs-title" ng-show="!showBtn">
+                    <i></i>{{showTag}}
+                </span>
+        </div>
+
+        <div class="panel panel-default" ng-show="showList">
+            <table class="table data-table">
+                <thead>
+                <tr>
+                    <th>车型</th>
+                    <th>车架号</th>
+                    <th>发动机号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in oldsignContractVo.signFinanceList">
+                    <td>
+                        {{item.applyFinance.carStyle.carBrand.brandName}}-{{item.applyFinance.carStyle.carSerial.carSerialName}}-{{item.applyFinance.carStyle.carStyleName}}-{{item.applyFinance.carStyle.displacement}}
+                    </td>
+                    <td>{{item.signFinanceDetail.carVin}}</td>
+                    <td>{{item.signFinanceDetail.carEngineNo}}</td>
+                    <td>
+                        <a href="javascript:" ng-click="chooseCarType(item.applyFinance.seq)">选择</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div ng-repeat="item in oldsignContractVo.signFinanceList">
+                <fieldset class="scheduler-border" ng-show="myItem==item.applyFinance.seq">
+                    <legend class="scheduler-border">原车辆信息{{item.applyFinance.seq | simpleChnUpperCase}}</legend>
+                    <div class="row m-t-md">
+                        <div class="col-md-8">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">车型：</label>
+
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">
+                                        {{item.applyFinance.carStyle.carBrand.brandName}}-{{item.applyFinance.carStyle.carSerial.carSerialName}}-{{item.applyFinance.carStyle.carStyleName}}-{{item.applyFinance.carStyle.displacement}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">指导价：</label>
+
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{item.applyFinance.carStyle.guidePrice}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">裸车价：</label>
+
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{item.applyFinance.salePrice}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">开票裸车价：</label>
+
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{item.signFinanceDetail.invoiceSalePrice}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="carVin" class="col-sm-4 control-label">车架号：</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" id="carVin" class="form-control"
+                                           ng-disabled="true" verify-number-char="" ng-minlength="17"
+                                           ng-maxlength="17" ng-model="item.signFinanceDetail.carVin">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="carEngineNo" class="col-sm-4 control-label">发动机号：</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" id="carEngineNo" class="form-control"
+                                           ng-disabled="true"
+                                           ng-model="item.signFinanceDetail.carEngineNo" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="plateNo" class="col-sm-4 control-label">车牌号：</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" id="plateNo" class="form-control"
+                                           ng-disabled="true" ng-model="item.signFinanceDetail.plateNo">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">车辆颜色：</label>
+
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{item.signFinanceDetail.carColor}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="gpsSupplierId" class="col-sm-4 control-label">GPS供应商：</label>
+
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="gpsSupplierId"
+                                            ng-model="item.signFinanceDetail.gpsSupplierId"
+                                            ng-disabled="true"
+                                            ng-options="item.brandId as item.brandName for item in gpsSupplierList" >
+                                        <option value="">请选择GPS供应商</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="gpsWiredNo" class="col-sm-4 control-label">有线GPS编码：</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" id="gpsWiredNo" class="form-control"
+                                           ng-disabled="true" verify-number-char=""
+                                           ng-model="item.signFinanceDetail.gpsWiredNo" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-group-sm">
+                                <label for="gpsWirelessNo" class="col-sm-4 control-label">无线GPS编码：</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" id="gpsWirelessNo" class="form-control"
+                                           ng-disabled="true" verify-number-char=""
+                                           ng-model="item.signFinanceDetail.gpsWirelessNo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div>
+            <div ng-repeat="item in newsignContractVo.signFinanceList">
+                <fieldset class="scheduler-border" ng-show="myItem==item.applyFinance.seq">
+                    <legend class="scheduler-border">新车辆信息{{item.applyFinance.seq | simpleChnUpperCase}}</legend>
+                    <div class="m-t-md">
+                        <div class="row m-t-md">
+                            <div class="col-md-8">
+                                <div class="form-group form-group-sm">
+                                    <label class="col-sm-2 control-label">车型：</label>
+
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">
+                                            {{item.applyFinance.carStyle.carBrand.brandName}}-{{item.applyFinance.carStyle.carSerial.carSerialName}}-{{item.applyFinance.carStyle.carStyleName}}-{{item.applyFinance.carStyle.displacement}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label class="col-sm-4 control-label">指导价：</label>
+
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{item.applyFinance.carStyle.guidePrice}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label class="col-sm-4 control-label">裸车价：</label>
+
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{item.applyFinance.salePrice}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label class="col-sm-4 control-label">开票裸车价：</label>
+
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{item.signFinanceDetail.invoiceSalePrice}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="carVin" class="col-sm-4 control-label">车架号：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="carVin" class="form-control"
+                                               ng-disabled="signEditable==false" verify-number-char="" ng-minlength="17"
+                                               ng-maxlength="17" ng-model="item.signFinanceDetail.carVin">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="carEngineNo" class="col-sm-4 control-label">发动机号：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="carEngineNo" class="form-control"
+                                               ng-disabled="signEditable==false"
+                                               ng-model="item.signFinanceDetail.carEngineNo" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="plateNo" class="col-sm-4 control-label">车牌号：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="plateNo" class="form-control"
+                                               ng-disabled="signEditable==false"
+                                               ng-model="item.signFinanceDetail.plateNo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label class="col-sm-4 control-label">车辆颜色：</label>
+
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">{{item.signFinanceDetail.carColor}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="gpsSupplierId" class="col-sm-4 control-label">GPS供应商：</label>
+
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="gpsSupplierId"
+                                                ng-model="item.signFinanceDetail.gpsSupplierId"
+                                                ng-disabled="signEditable==false"
+                                                ng-options="item.brandId as item.brandName for item in gpsSupplierList" required>
+                                            <option value="">请选择GPS供应商</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="gpsWiredNo" class="col-sm-4 control-label">有线GPS编码：</label>
+
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text"  id="gpsWiredNo0" class="form-control" ng-disabled="true" verify-gps-char="" ng-model="item.signFinanceDetail.gpsWiredNo" ng-minlength="10">
+                                        <span class="input-group-addon">
+                                                <a href="" ng-click="chooseGps('有线','WIRE',item.signFinanceDetail)" >选择GPS</a>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group form-group-sm">
+                                    <label for="gpsWirelessNo" class="col-sm-4 control-label">无线GPS编码：</label>
+
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" id="gpsWirelessNo0" class="form-control" ng-disabled="true" verify-gps-char="" ng-model="item.signFinanceDetail.gpsWirelessNo"  ng-minlength="10">
+                                            <span class="input-group-addon">
+                                                <a href="" ng-click="chooseGps('无线','WIRELESS',item.signFinanceDetail)" >选择GPS</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group form-group-sm">
+                                <label for="alterComment" class="col-sm-2 control-label">变更备注：</label>
+
+                                <div class="col-sm-8">
+                                    <textarea type="text" class="form-control" id=""
+                                              ng-model="newsignContractVo.alterComment" placeholder="变更备注"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+
+    </div>
+
+    
+    <div class="modal-footer" >
+        <button class="btn btn-danger btn-modal-left" type="button"  ng-click="showCars()" ng-show="showBtn">返回车型选择列表</button>
+        <button class="btn btn-success" ng-disabled="form.$invalid" type="button" ng-click="ok()" ng-show="showFooter">确定</button>
+        <button class="btn btn-default" type="button" ng-click="cancel()">关闭</button>
+    </div>
+
+
+</form>

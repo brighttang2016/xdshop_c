@@ -1,0 +1,10 @@
+.callcenter-inpupt{
+    display:inline;
+    width: 90%;
+}
+td{
+    vertical-align: middle !important;
+}
+.callcenter-phone-icon:hover{
+    cursor:pointer;
+}

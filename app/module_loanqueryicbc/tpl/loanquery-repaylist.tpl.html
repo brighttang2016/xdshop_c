@@ -1,0 +1,35 @@
+
+<div fix-div="">
+<uib-tabset>
+    <uib-tab index="0">
+        <uib-tab-heading>
+            <span>还款计划</span>
+        </uib-tab-heading>
+        <div ng-include="'module_loanqueryicbc/tpl/repayplan-list.html'"></div>
+    </uib-tab>
+    <uib-tab index="1" select="queryOtherFeeList()">
+        <uib-tab-heading>
+            <span>其他费用</span>
+        </uib-tab-heading>
+        <div ng-include="'module_loanquery/tpl/otherfee-list.html'"></div>
+    </uib-tab>
+    <uib-tab index="2" select="queryRepayLog()">
+        <uib-tab-heading>
+            <span>还款记录</span>
+        </uib-tab-heading>
+        <div ng-include="'module_loanquery/tpl/repaylog-list.html'"></div>
+    </uib-tab>
+    <uib-tab index="3" select="queryChargeLog()">
+        <uib-tab-heading>
+            <span>扣款记录</span>
+        </uib-tab-heading>
+        <div ng-include="'module_loanquery/tpl/chargelog-list.html'"></div>
+    </uib-tab>
+    <uib-tab index="4" select="queryRepayQueueList()">
+        <uib-tab-heading>
+            <span>入账队列信息</span>
+        </uib-tab-heading>
+        <div ng-include="'module_loanquery/tpl/repayqueue-list.html'"></div>
+    </uib-tab>
+</uib-tabset>
+   </div>

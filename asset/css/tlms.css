@@ -1,0 +1,14 @@
+p {
+    text-align: center;
+    color: black;
+    font-family: arial;
+}
+.border-style{
+    border:1px solid red;
+    width:400px;
+    height:200px;
+}
+.tlms-border{
+    border:1px solid red;
+}
+

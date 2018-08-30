@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+    <div class="panel-heading" >
+        <h4><span class="label label-info">基本应还信息</span></h4>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showLoanTable=!showLoanTable" ng-show="!showLoanTable">查看详情</button>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showLoanTable=!showLoanTable" ng-show="showLoanTable">收起详情</button>
+    </div>
+
+    <table class="table table-bordered " ng-show="showLoanTable">
+        <tbody>
+        <tr>
+            <td>融资金额：{{loanCustApplyInfo.financeAmt}}</td>
+            <td>融资期数：{{loanCustApplyInfo.period}}</td>
+            <td>还款方式：{{loanCustApplyInfo.repayModeDesc}}</td>
+            <td>放款日期：{{loanCustApplyInfo.loanDate}}</td>
+        </tr>
+        <tr>
+            <td>应还本金：{{loanCustNeedRepayInfo.repayCapital}}</td>
+            <td>应还利息：{{loanCustNeedRepayInfo.repayInterest}}</td>
+            <td>应还罚息：{{loanCustNeedRepayInfo.repayOverdueAmount}}</td>
+            <td>其他费用：{{loanCustNeedRepayInfo.otherAmount}}</td>
+        </tr>
+        <tr>
+            <td>其他费用罚息：{{loanCustNeedRepayInfo.otherOverdueAmount}}</td>
+            <td>应还合计：{{(loanCustNeedRepayInfo.repayCapital+
+                loanCustNeedRepayInfo.repayInterest+
+                loanCustNeedRepayInfo.repayOverdueAmount+
+                loanCustNeedRepayInfo.otherAmount+
+                loanCustNeedRepayInfo.otherOverdueAmount
+                ) | mathRound}}</td>
+            <td>剩余本金：{{loanCustNeedRepayInfo.remainCapital}}</td>
+            <td>挂账金额：{{loanCustNeedRepayInfo.stayAmount}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

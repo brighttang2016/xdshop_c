@@ -1,0 +1,53 @@
+<div fix-div="">
+<div  class="panel panel-default">
+    <table class="table data-table">
+        <thead>
+        <tr>
+            <th style="width:80px">期数</th>
+            <th>应还本金</th>
+            <th>应还手续费</th>
+            <th>起息日</th>
+            <th>账单日</th>
+            <th>到期还款日</th>
+            <th>应还总额</th>
+            <th>还款状态</th>
+        </tr>
+        </thead>
+        <tbody>
+       <!-- <tr class="info">
+            <td style="width:80px">合计</td>
+            <td>{{totalCapital}}</td>
+            <td>{{totalInterest}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{repayingCapital}}</td>
+            <td>{{repayingInterest}}</td>
+            <td>{{totalRepayOverdueAmount}}</td>
+            <td style="width:90px"></td>
+            <td style="width:90px">{{repayingOverdue}}</td>
+        </tr>-->
+        <tr ng-repeat="item in repayPlanIcbcList">
+            <td>{{item.period}}</td>
+            <td>{{item.repayCapital}}</td>
+            <td>{{item.repayInterest}}</td>
+            <td>{{item.valueDate}}</td>
+            <td>{{item.billDate}}</td>
+            <td>{{item.closingDate}}</td>
+            <td>{{item.repayCapital +item.repayInterest}}</td>
+            <td>
+                <span ng-if="item.repayStatus =='hkzt01'">还款中</span>
+                <span ng-if="item.repayStatus =='hkzt02'">已结清</span>
+                <span ng-if="item.repayStatus =='hkzt03'">逾期</span>
+                <span ng-if="item.repayStatus =='hkzt04'">待还款</span>
+                <span ng-if="item.repayStatus =='hkzt05'">已核销</span>
+                <span ng-if="item.repayStatus =='hkzt01' && item.reserver1 =='hkzt03'">(宽限期)</span>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    </div>

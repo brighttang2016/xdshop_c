@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+    <div class="panel-heading" >
+        <h4><span class="label label-info">联系人信息</span></h4>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showLinkmansTable=!showLinkmansTable" ng-show="!showLinkmansTable">查看详情</button>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showLinkmansTable=!showLinkmansTable" ng-show="showLinkmansTable">收起详情</button>
+    </div>
+
+    <table class="table table-bordered " ng-repeat="item in linkmans" ng-show="showLinkmansTable">
+        <tbody>
+        <tr>
+            <td>姓名：{{item.name}}</td>
+            <td>手机：{{item.mobile}}</td>
+            <td>与本人关系：{{item.relation}}</td>
+            <td>是否知道购车：{{item.know}}</td>
+        </tr>
+        <tr>
+            <td colspan="4">住址：{{item.address}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

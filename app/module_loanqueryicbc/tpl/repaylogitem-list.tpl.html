@@ -1,0 +1,46 @@
+<table class="data-table">
+    <thead>
+    <tr>
+        <th>费用类型</th>
+        <th>还款项目</th>
+        <th>还款金额</th>
+        <th>还款时间</th>
+        <th>还款方式</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in repayLogList">
+        <td>{{item.feeType}}</td>
+        <td>{{item.chargeItem}}</td>
+        <td>{{item.chargeAmount}}</td>
+        <td>{{item.chargeTime|mysqlDatetime}}</td>
+        <td>{{item.chargeMode}}</td>
+    </tr>
+    </tbody>
+</table>
+<div class="has-divider has-divider--dark"></div>
+<div class="toolbar">
+    <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+    </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+    <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+        <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+        </div>
+        <div>
+            <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                            ng-model="paginationInfo.curPage"
+                            items-per-page="paginationInfo.pageSize" ng-change="pageChanged()"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                            last-text="&raquo;">
+            </uib-pagination>
+        </div>
+    </div>
+</div>

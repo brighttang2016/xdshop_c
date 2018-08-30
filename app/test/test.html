@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="main">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function pageOnload(){
+            alert("pageOnload");
+            var div = document.getElementById("clickDiv");
+            div.addEventListener('click',function(){
+                alert("div click");
+                console.log("div click");
+            });
+        }
+    </script>
+    <link type="text/css" rel="stylesheet" href="../../bower_components/angularjs-toaster/toaster.css"  />
+    <link type="text/css" rel="stylesheet" href="../../bower_components/angular-busy/angular-busy.css"/>
+    <!-- jQuery -->
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <!-- Angular -->
+    <script src="../../bower_components/angular/angular.js"></script>
+  <!--  <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>-->
+  <!--  <script src="../../bower_components/angular-cookies/angular-cookies.js"></script>-->
+<!--    <script src="../../bower_components/angular-resource/angular-resource.js"></script>-->
+<!--    <script  src="../../bower_components/angular-ui-router/release/stateEvents.js"></script>-->
+
+
+    <script src="../../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../../bower_components/angularjs-toaster/toaster.js"></script>
+
+
+    <script src='../../bower_components/angular-busy/angular-busy.js'></script>
+   <!-- <link href="https://cdn.bootcss.com/angularjs-toaster/0.4.6/toaster.css" rel="stylesheet" />
+      <script src="angular.min.js" ></script>
+    <script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+    <script src="https://cdn.bootcss.com/angularjs-toaster/0.4.6/toaster.min.js"></script>
+-->
+    <script src="testcontroller.js"></script>
+</head>
+<body >
+<toaster-container></toaster-container>
+
+    <div ui-view></div>
+    <button type="button" ng-click="jumToAdd()">新增发布</button>
+
+    <div ng-controller="myController">
+        <button ng-click="pop()">Show a Toaster</button>
+    </div>
+
+    <div>
+        <button ng-click="cgbusy()">Show a Toaster</button>
+        <div cg-busy="loading"></div>
+    </div>
+
+</body>
+</html>

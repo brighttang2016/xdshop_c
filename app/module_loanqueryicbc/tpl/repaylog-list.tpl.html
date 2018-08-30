@@ -1,0 +1,92 @@
+<div fix-div="">
+<div  class="panel panel-default">
+    <table class="table data-table" style="width: 97%;">
+        <thead>
+        <tr>
+            <th style="width:50px">序号</th>
+            <th style="width:50px">还款方式</th>
+            <th style="width:50px">还款时间</th>
+            <th style="width:50px">入账时间</th>
+            <th style="width:50px">还款金额</th>
+            <th style="width:50px">本金</th>
+            <th style="width:50px">利息</th>
+            <th style="width:50px">罚息</th>
+            <th style="width:50px">其他费用</th>
+            <th style="width:50px">其他费用罚息</th>
+            <th style="width:50px">展期费</th>
+            <th style="width:50px">提前结清违约金</th>
+            <th style="width:50px">挂账金额</th>
+            <th style="width:50px">核销金额</th>
+            <th style="width:100px">备注</th>
+            <th style="width:50px">剩余利息合计</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  class="info">
+            <td>合计</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{repaySum.repayAmount}}</td>
+            <td>{{repaySum.capital}}</td>
+            <td>{{repaySum.interest}}</td>
+            <td>{{repaySum.overdueAmount}}</td>
+            <td>{{repaySum.otherFee}}</td>
+            <td>{{repaySum.otherOverdueAmount}}</td>
+            <td>{{repaySum.extendFee}}</td>
+            <td>{{repaySum.lateFee}}</td>
+            <td>{{repaySum.stageAmount}}</td>
+            <td></td>
+            <td></td>
+            <td>{{repaySum.remainInterest}}</td>
+        </tr>
+        <tr ng-repeat="item in repayLogList">
+            <td>{{item.seq}}</td>
+            <td>{{item.repayMode}}</td>
+            <td>{{item.repayTime | mysqlDate}}</td>
+            <td>{{item.recordTime |mysqlDatetime}}</td>
+            <td>{{item.repayAmount}}</td>
+            <td>{{item.capital}}</td>
+            <td>{{item.interest}}</td>
+            <td>{{item.overdueAmount}}</td>
+            <td>{{item.otherFee}}</td>
+            <td>{{item.otherOverdueAmount}}</td>
+            <td>{{item.extendFee}}</td>
+            <td>{{item.lateFee}}</td>
+            <td>{{item.stageAmount}}</td>
+            <td>{{item.reserver1}}</td>
+            <td>{{item.repayComment}}</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="has-divider has-divider--dark"></div>
+    <div class="toolbar">
+        <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+        </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+        <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+            <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+            </div>
+            <div>
+                <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                ng-model="paginationInfo.curPage"
+                                items-per-page="paginationInfo.pageSize"
+                                max-size="paginationInfo.maxSize"
+                                ng-change="repayLogPageChanged()"
+                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                last-text="&raquo;">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

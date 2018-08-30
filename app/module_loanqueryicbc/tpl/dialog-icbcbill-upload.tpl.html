@@ -1,0 +1,62 @@
+<div class="data-table-container" ng-init="initIcbcBillUpload()">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">上传工行账单文件</h4>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="panel_main">
+            <div class="form-horizontal">
+                <div class="form-group form-group-sm">
+                    <!--<div style="border:0px solid black; vertical-align:center; horiz-align:center;">
+                        <input style="width: 300px;height: 30px;line-height: 30px;border:1px solid red;display:inline-block;" type="text" readonly="readonly" ng-model="fileMsg" />
+                        <a href="javascript:;" name="file" style="width: 50px;text-align: center;height: 30px;line-height: 30px;position: absolute;cursor: pointer;overflow:hidden;display: inline-block;border:1px solid green">
+                            <input ng-model="billFile" type="file" name="key" style="position: absolute;left: 0;top: 0;opacity: 0;border:0px solid red" ng-model="fileName" nv-file-select uploader="uploader" ng-click="selectFile()"/><i class="fa fa-file-excel-o fa-lg"></i>浏览
+                        </a>
+                    </div>-->
+                    <div style="border:0px solid black; vertical-align:center; horiz-align:center;">
+                        <a  href="javascript:;" name="file" style="align:center;width: 100px;text-align: center;height: 35px;line-height: 35px;position: relative;cursor: pointer;overflow:hidden;display: inline-block; border:0px solid #E5E5E5">
+                            <input ng-model="billFile" type="file" name="key" style="position: absolute;left: -80px;top: 0;opacity: 0;border:1px solid red;cursor: pointer;" ng-model="fileName" multiple nv-file-select uploader="uploader" filter="icbcBillUploadFilter"/><button type="submit" class="btn btn-primary"><i class="fa fa-file-excel-o m-r-sm"></i>浏览</button>
+                        </a>
+                    </div>
+                  <!-- <input type="file" multiple nv-file-select uploader="uploader" ng-click="selectFile()"/><br/>-->
+                </div>
+                <div ng-repeat="fileItem in uploader.queue">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-group-sm">
+                                {{fileItem._file.name}} ({{fileItem._file.fileSize}})
+                            </div>
+                        </div>
+                        <!--<input style="width: 300px;height: 30px;line-height: 30px;border:1px solid #E5E5E5;display:inline-block;" type="text" readonly="readonly" ng-model="fileInfo" />-->
+                        <div class="col-sm-3 form-group form-group-sm">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: {{fileItem._file.progress}}%;">
+                                    {{fileItem._file.progress}}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <i class="fa fa-trash" ng-click="deletePreUpload(fileItem)"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div ng-if="isShowUpdResultMsg"><i class="{{msgIconClass}}"></i>{{uploadResultMsg}}</div>
+                </div>
+               <!-- <div class="form-group form-group-sm">
+                    <ul>
+                        <li ng-repeat="item in uploader.queue">
+                            Name: <span ng-bind="item.file.name"></span><br/>
+                            &lt;!&ndash;<button ng-click="doUpload(item)">上传</button>&ndash;&gt;
+                        </li>
+                    </ul>
+                </div>-->
+               <!-- <div>{{fileInfo}}</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="addOk()"  ng-show="isShowOkBtn" ng-disabled="isDisabledOkBtn"><i class="fa fa-arrow-up m-r-sm"></i>上传</button>
+        <button class="btn btn-warning" type="button" ng-click="addClose()">关闭</button>
+    </div>
+</div>

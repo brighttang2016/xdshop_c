@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <div class="panel-heading" >
+        <h4><span class="label label-info">客户基本信息</span></h4>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showBaseinfoTable=!showBaseinfoTable" ng-show="!showBaseinfoTable">查看详情</button>
+        <button class="btn btn-success" style="float: right;margin-top:-35px" ng-click="showBaseinfoTable=!showBaseinfoTable" ng-show="showBaseinfoTable">收起详情</button>
+    </div>
+
+    <table class="table table-bordered " ng-show="showBaseinfoTable">
+        <tbody>
+        <tr>
+            <td>合同编号：{{baseInfoVo.contractNo}}</td>
+            <td>证件号码：{{baseInfoVo.idNo}}</td>
+            <td>客户姓名：{{baseInfoVo.name}}</td>
+            <td>产品类型：{{applyInfo.product.productName}}</td>
+        </tr>
+        <tr>
+            <td>经销商：{{baseInfoVo.branchName}}</td>
+            <td>融资金额：{{baseInfoVo.financeAmt}}</td>
+            <td>融资期限：{{baseInfoVo.period}}</td>
+            <td>已还期数：{{baseInfoVo.settlePeriod}}</td>
+        </tr>
+        <tr>
+            <td>本次逾期天数：{{baseInfoVo.overdueDay}}</td>
+            <td>累计逾期次数：{{baseInfoVo.overdueTime}}</td>
+            <td>还款银行：{{baseInfoVo.bankName}}</td>
+            <td>还款银行卡号：{{baseInfoVo.repayAcctNo}}</td>
+        </tr>
+        <tr>
+            <td>承租人手机号码1：{{baseInfoVo.tenantMobile1}}</td>
+            <td>承租人手机号码2：{{baseInfoVo.tenantMobile2}}</td>
+            <td>承租人单位名称：{{baseInfoVo.tenantUnitName}}</td>
+            <td>承租人单位电话：{{baseInfoVo.tenantUnitTel}}</td>
+        </tr>
+        <tr>
+            <td>配偶姓名：{{baseInfoVo.spouseName}}</td>
+            <td>配偶手机号码：{{baseInfoVo.spouseMobile}}</td>
+            <td>配偶单位电话：{{baseInfoVo.spouseUnitTel}}</td>
+            <td>共租人姓名：{{baseInfoVo.cloesseeName}}</td>
+        </tr>
+        <tr>
+            <td>共租人手机号码：{{baseInfoVo.cloesseeMobile}}</td>
+            <td colspan="3">共租人单位电话：{{baseInfoVo.cloesseeUnitTel}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

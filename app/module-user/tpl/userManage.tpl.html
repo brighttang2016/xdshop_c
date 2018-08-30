@@ -1,0 +1,44 @@
+<div ng-controller="UserController">
+    用户管理
+    <button ng-click="showCallCenter()">打开呼叫中心面板</button>
+    <button ng-click="hideCallCenter()">隐藏呼叫中心面板</button>
+    <!--<div class="border-style">
+        <p>说明：双向数据绑定测试</p>
+        输入需要跳转到地址(指令外)<input type="text" ng-model="theirUrl"/>
+        <div my-directive4
+             some-url="theirUrl"
+             my-link-text4=" my-directive4跳转到{{theirUrl}}(向指令中传递数据)">
+        </div>
+    </div>-->
+
+    <input name="userName" ng-model="userName"/>
+    <button type="button" ng-click="getFormData()">点击在controller层获取表单数据</button>
+    <hr/>
+   <!-- <div myDirective4>
+        <div my-link>18723290701</div>
+    </div>-->
+<!--    <div my-directive4>-->
+    phoneNum：<input text="text" ng-model="phoneNum"/>
+    tenantPhone：<input text="text" ng-model="tenantPhone"/>
+
+<!--link2指令-->
+<!--   <div call-center-directive-parent>
+        <div my-link2 attr-name="phoneNum" phone-num="phoneNum">
+            {{phoneNum}}
+        </div>
+    </div>-->
+
+    <div call-center-directive-parent>
+        <div  phone-num-directive attr-name="phoneNum"  phone-num="tenantPhone">
+        </div>
+        <!--<input phone-num-directive attr-name="phoneNum"  phone-num="tenantPhone"/>-->
+        <!--<div phone-num-directive attr-name="phoneNum"  phone-num="tenantPhone">
+            {{tenantPhone}}
+        </div>-->
+    </div>
+
+    <input type="text" phone-icon-directive ng-model="applyPhone"/>
+    <input type="text" phone-icon-directive ng-model="applyPhone2"/>
+    <label phone-icon-directive ng-model="applyPhone2">{{applyPhone2}}</label>
+
+</div>

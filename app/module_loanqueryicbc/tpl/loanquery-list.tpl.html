@@ -1,0 +1,248 @@
+<div ng-init="initIcbcLoanQueryList()" cg-busy="loading" >
+    <div class="panel panel-default">
+        <div class="data-table-container" >
+            <header class="data-table-header">
+                <div class="data-table-header__label">
+                    <span class="fs-title"><i class="fa fa-globe mr"></i>工行贷后综合查询</span>
+                </div>
+            </header>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row m-t-sm">
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="appId" ng-model="vm.appId" placeholder="申请单号">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="name" ng-model="vm.name" placeholder="客户姓名">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <input type="text" id="loanStartDate" class="form-control m-b-sm m-r-xs" uib-datepicker-popup
+                                   placeholder="起始分期日期"
+                                   is-open="isopenLoanStartDate"
+                                   ng-model="vm.loanStartDate" >
+                            <span class="input-group-btn">
+                            <button type="button" class="form-control btn btn-default btn-md m-b-ms"   ng-click="isopenLoanStartDate=!isopenLoanStartDate" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <input type="text" id="loanEndDate" class="form-control m-b-sm m-r-xs" uib-datepicker-popup
+                                   placeholder="截止分期日期"
+                                   is-open="isopenLoanEndDate"
+                                   ng-model="vm.loanEndDate" >
+                            <span class="input-group-btn">
+                            <button type="button" class="form-control btn btn-default btn-md m-b-ms"   ng-click="isopenLoanEndDate=!isopenLoanEndDate" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <select ng-model="vm.repayStatus"  class="form-control m-b-sm m-r-xs"
+                                ng-options="item.dictDataCode as item.dictDataName for item in repayStatusList" >
+                            <option value="">请选择还款状态</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="queryLoanCustList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs"  ng-if="hasPrimission('app.loanquery.detail.batcharchive')" ng-click="batchCompleteArchiveTask()"><i class="fa fa-search" aria-hidden="true"></i>批量结束预筛查归档任务</button>
+                </div>
+                <!--<div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <select id="productCode" class="form-control" ng-model="vm.productCode"
+                                ng-options="item.productCode as item.productName group by item.productTypeName  for item in productList track by item.id" >
+                            <option value="">请选择产品</option>
+                        </select>
+                    </div>
+                </div>-->
+                <!--<div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="idNo" ng-model="vm.idNo" placeholder="证件号码">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="mobile" ng-model="vm.mobile" placeholder="承租人电话号码1或号码2">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="contractNo" ng-model="vm.contractNo" placeholder="合同编号">
+                    </div>
+                </div>-->
+            </div>
+            <!--<div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="text" class="form-control" id="sysBranchCode" ng-model="vm.sysBranchCode" placeholder="经销商编码">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <input type="text" id="loanStartDate" class="form-control m-b-sm m-r-xs" uib-datepicker-popup
+                                   placeholder="放款完成开始日期"
+                                   is-open="isopenLoanStartDate"
+                                   ng-model="vm.loanStartDate" >
+                        <span class="input-group-btn">
+                            <button type="button" class="form-control btn btn-default btn-md m-b-ms"   ng-click="isopenLoanStartDate=!isopenLoanStartDate" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <div class="input-group">
+                            <input type="text" id="loanEndDate" class="form-control m-b-sm m-r-xs" uib-datepicker-popup
+                                   placeholder="放款完成结束日期"
+                                   is-open="isopenLoanEndDate"
+                                   ng-model="vm.loanEndDate" >
+                        <span class="input-group-btn">
+                            <button type="button" class="form-control btn btn-default btn-md m-b-ms"   ng-click="isopenLoanEndDate=!isopenLoanEndDate" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <select ng-model="vm.repayStatus"  class="form-control m-b-sm m-r-xs"
+                                ng-options="item.dictDataCode as item.dictDataName for item in repayStatusList" >
+                            <option value="">请选择还款状态</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="number" class="form-control" id="overdueDayMin" ng-model="vm.minOverdueDay" placeholder="最小逾期天数">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <input type="number" class="form-control" id="overdueDayMax" ng-model="vm.maxOverdueDay" placeholder="最大逾期天数">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group form-group-sm">
+                        <select id="branchId" class="form-control" ng-model="vm.branchId"
+                                ng-options="item.id as (item.branchCode+'-'+item.branchName) for item in branchList" >
+                            <option value="">请选择经销商</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="queryLoanCustList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs"  ng-if="hasPrimission('app.loanquery.detail.batcharchive')" ng-click="batchCompleteArchiveTask()"><i class="fa fa-search" aria-hidden="true"></i>批量结束预筛查归档任务</button>
+                </div>
+            </div>-->
+        </div>
+
+        <div class="data-table-container">
+            <header class="data-table-header">
+                <div class="data-table-header__label">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-2 text-left">
+                            <i class="fa fa-list m-r-sm"></i>工行订单列表：
+                        </div>
+                    </div>
+                </div>
+                <div class="data-table-header__actions">
+                    <button class="btn btn-default btn-sm" type="button" ng-click="downloadIcbcBillFile()"  ng-if="hasPrimission('app.loanqueryicbc.list.icbcBillFileDownload')">
+                        <i class="fa fa-arrow-down m-r-sm"></i>下载工行账单数据
+                    </button>
+                    <button class="btn btn-default btn-sm" type="button" ng-click="importIcbcBillFile()" ng-if="hasPrimission('app.loanqueryicbc.list.icbcBillFileUpload')">
+                        <i class="fa fa-arrow-up m-r-sm" ></i>导入工行账单数据
+                    </button>
+                </div>
+            </header>
+
+            <table class="data-table  table table-hover">
+                <thead>
+                <tr>
+                    <th  style="width:150px">申请单号</th>
+                    <th style="width:150px">姓名</th>
+                    <th style="width:150px">产品</th>
+                    <th style="width:200px">经销商</th>
+                    <th>地址</th>
+                    <th>分期日期</th>
+                    <th>分期金额</th>
+                    <th>期数</th>
+                    <th>月供</th>
+                    <th>最优还款额</th>
+                    <th>最终还款日</th>
+                    <th>还款状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in loanCustList">
+                    <td>{{item.appId}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.branchFullname}}</td>
+                    <td>{{item.province }} {{item.city}}</td>
+                    <td>{{item.installmentDate}}</td>
+
+                    <td>{{item.financeAmount}}</td>
+                    <td>{{item.periodRemain}}/{{item.periodTotal}} </td>
+                    <td>{{item.financeAvg + item.serviceAvg}}</td>
+                    <td>{{item.feeBestRepay}}</td>
+                    <td>{{item.closingDate}}</td>
+                   <!-- <td>
+                        <span>{{item.closingDateRepayStatusDesc}}</span>
+                        <span ng-if="item.closingDateRepayStatus=='hkzt03' && item.repayStatus=='hkzt01'">(宽限期)</span>
+                        <span ng-if="item.secondLvlStatus=='overdue-cardispose'">(已车辆处置)</span>
+                    </td>-->
+                    <td>
+                        {{item.repayStatusDesc}}
+                    </td>
+                    <td>
+                        <a href="javascript:" ui-sref="app.loanqueryicbc.loaninfo.detail({appId:item.appId,contractNo:item.contractNo,isPjPay:item.isPjPay})">详细</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                        <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        items-per-page="paginationInfo.pageSize"
+                                        max-size="paginationInfo.maxSize" ng-change="pageChanged()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,76 @@
+<div  class="panel" ng-init="initLoanDetail();editable=false;canAddInsurance=false">
+    <div class="data-table-container" >
+        <header class="data-table-header" style="min-height:72px !important;">
+            <div class="data-table-header__label">
+                <span class="fs-title">
+                    <i class="fa fa-globe mr"></i>贷款详细信息-{{applyInfo.appId}}-{{applyInfo.tenant.name}}-{{loanCustApplyInfo.repayStatusDesc}}
+                </span>
+            </div>
+            <div class="data-table-header__actions">
+                <button class="btn btn-m btn-default btn-sm" type="button" ng-click="addsmsSignRecord()"><i class="fa fa-plus m-r-sm"></i>创建签约跟进记录</button>
+                <button class="btn btn-default btn-sm" type="button"  ng-click="back()"><i class="fa fa-level-up m-r-sm"></i>返回上级</button>
+            </div>
+        </header>
+    </div>
+
+    <uib-tabset>
+        <uib-tab index="0">
+            <uib-tab-heading>
+                <span>贷款基本信息</span>
+            </uib-tab-heading>
+            <div ng-include="'module_loanquery/tpl/form-loanbaseinfo.html'"></div>
+        </uib-tab>
+        <uib-tab index="1" select="querySmssignRecordList()">
+            <uib-tab-heading>
+                <span>签约跟进记录</span>
+            </uib-tab-heading>
+            <div ng-include="'module_smssign/tpl/sms-sign-record-list.html'"></div>
+        </uib-tab>
+        <uib-tab index="2" select="querySmssignProcList()">
+            <uib-tab-heading>
+                <span>签约记录</span>
+            </uib-tab-heading>
+            <div ng-include="'module_smssign/tpl/sms-sign-proc-list.html'"></div>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                <span>还款信息</span>
+            </uib-tab-heading>
+            <div ng-include="'module_loanquery/tpl/loanquery-repaylist.html'"></div>
+        </uib-tab>
+        <uib-tab index="4"  select="getInsuranceHisList()">
+            <uib-tab-heading>
+                <span>保险信息</span>
+            </uib-tab-heading>
+            <div  ng-include="'module_assetsmanage/tpl/form-his-insurance.html'"/>
+        </uib-tab>
+        <uib-tab index="5"  select="getImportantCollectionLog()">
+            <uib-tab-heading>
+                <span>催收记录</span>
+            </uib-tab-heading>
+            <div ng-include="'module_assetsmanage/tpl/collection-log.html'"></div>
+        </uib-tab>
+        <!--<uib-tab index="4"  select="getTelInterviewHisList()">-->
+            <!--<uib-tab-heading>-->
+                <!--<span>电话回访记录</span>-->
+            <!--</uib-tab-heading>-->
+            <!--<div  ng-include="'module_assetsmanage/tpl/form-tel-interview-his.html'"/>-->
+        <!--</uib-tab>-->
+        <!--<uib-tab index="5"  select="getTelIncomeHisList()">-->
+            <!--<uib-tab-heading>-->
+                <!--<span>来电记录</span>-->
+            <!--</uib-tab-heading>-->
+            <!--<div  ng-include="'module_assetsmanage/tpl/form-tel-income-his.html'"/>-->
+        <!--</uib-tab>-->
+
+        <!--<uib-tab index="12"  select="getAlterInfoLogList()">-->
+            <!--<uib-tab-heading>-->
+                <!--<span>客户信息变更记录</span>-->
+            <!--</uib-tab-heading>-->
+            <!--<div  ng-include="'module_loanquery/tpl/alterinfo-his.html'"/>-->
+        <!--</uib-tab>-->
+
+
+    </uib-tabset>
+    <div ui-view=""></div>
+</div>

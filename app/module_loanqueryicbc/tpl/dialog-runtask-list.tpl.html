@@ -1,0 +1,63 @@
+<form name="form" class="form-horizontal"  draggable="">
+    <div class="modal-header">
+        <h4 class="modal-title"><i class="fa fa-exclamation-circle"></i>执行任务列表</h4>
+    </div>
+    <div class="modal-body" style="height: 400px;overflow-y: auto">
+        <div class="panel panel-default">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>流程名称</th>
+                    <th>申请人</th>
+                    <th>申请日期</th>
+                    <th>当前任务节点</th>
+                    <th>当前任务执行人</th>
+                    <th>任务分配时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in runTaskList">
+                    <td>{{item.workflowName}}</td>
+                    <td>{{item.applyAcctName}}</td>
+                    <td>{{item.applyDate | mysqlDate}}</td>
+                    <td>{{item.taskName}}</td>
+                    <td>{{item.assignee}}</td>
+                    <td>{{item.taskCreateDate | mysqlDatetime}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar" ng-if="false">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                        <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        items-per-page="paginationInfo.pageSize"
+                                        max-size="paginationInfo.maxSize"
+                                        ng-change="pageChange()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="cancel()">关闭</button>
+    </div>
+</form>
+

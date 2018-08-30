@@ -1,0 +1,194 @@
+<div  class="panel" ng-init="initIcbcLoanDetail();editable=false;canAddInsurance=false">
+
+<!--    <div>
+        <input ng-model="test.myName"/>
+        <input ng-model="mysex"/>
+        <div abc-pay-sms-sign-directive  my-name="test.myName" my-sex="{{test.myName}}" do-query="doQuery"></div>
+    </div>-->
+
+    <div class="data-table-container" >
+        <header class="data-table-header" style="min-height:72px !important;">
+            <div class="data-table-header__label">
+                <span class="fs-title">
+                    <i class="fa fa-globe mr"></i>贷款详细信息-{{applyInfo.appId}}-{{applyInfo.tenant.name}}-{{loanCustApplyInfo.repayStatusDesc}}
+                </span>
+                <span>
+                <a href="javascript:" ng-click="showRunTaskList()">(正在执行任务： <span class="badge text-danger">{{runTaskCnt}}</span></a>)
+                </span>
+            </div>
+
+            <div class="data-table-header__actions">
+                <!--农行短信签约-->
+                <div class="btn-group"  uib-dropdown dropdown-append-to-body="true" abc-pay-sms-sign-directive app-id="applyInfo.appId"></div>
+
+                <button class="btn btn-m btn-default btn-sm" type="button" ng-click="addIncomingTel(applyInfo.appId)"><i class="fa fa-plus m-r-sm"></i>创建来电记录</button>
+                <button class="btn btn-default btn-sm" type="button" ng-click="showCustomApplyDetail(appId)"><i class="fa fa-file-text m-r-sm" ></i>申请详细资料</button>
+                <button class="btn btn-default btn-sm" type="button"  ng-if="hasPrimission('app.loanquery.detail.sendsms')"  ng-click="sendSms(applyInfo.appId)">发送短信</button>
+
+                <button class="btn btn-default btn-sm" type="button"    ng-click="finishCollectionPhoneTask(applyInfo.appId)">结束电话催收任务</button>
+                <button class="btn btn-default btn-sm" type="button"    ng-click="createCollectionPthoneTask(applyInfo.appId)">发起电话催收任务</button>
+
+                <div class="btn-group"  uib-dropdown dropdown-append-to-body="true" ng-if="hasPrimission('app.loantask.newtask')" >
+                    <button  type="button" class="btn btn-default btn-sm" uib-dropdown-toggle>
+                        发起贷后任务<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                        <li role="menuitem" >
+                            <a href="javascript:" ng-click="applyNewCollectionTask('csrwlx04')">委外收车</a>
+                        </li>
+                        <li role="menuitem" >
+                            <a href="javascript:" ui-sref="app.collection.lawsuit.applydirect({appId:applyInfo.appId})" target="_blank">诉讼</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group"  uib-dropdown dropdown-append-to-body="true" ng-if="hasPrimission('app.loanquery.detail.alertcustinfo')" >
+                    <button  type="button" class="btn btn-default btn-sm" uib-dropdown-toggle>
+                         客户信息变更<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                        <li role="menuitem" ng-if="hasPrimission('app.loanquery.detail.alertcustinfo.tenant')" >
+                            <a href="javascript:" ng-click="doAlterTenantInfo()">承租人信息变更</a>
+                        </li>
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.alertcustinfo.colessee')">
+                            <a href="javascript:" ng-click="doAlterColesseeInfo()" >共租人信息变更</a>
+                        </li>
+                        <li role="menuitem" ng-if="hasPrimission('app.loanquery.detail.alertcustinfo.linkman')">
+                            <a href="javascript:" ng-click="doAlterLinkmanInfo()">联系人信息变更</a>
+                        </li>
+                        <li role="menuitem" ng-if="hasPrimission('app.loanquery.detail.alertcustinfo.cardno')">
+                            <a href="javascript:" ng-click="doAlterBankInfo()">银行卡信息变更</a>
+                        </li>
+                        <li role="menuitem" ng-if="false">
+                            <a href="javascript:" ng-click="doInsuranceContinue()">发起保险续保(测试)</a>
+                        </li>
+                        <li role="menuitem" ng-if="hasPrimission('app.loanquery.detail.signinfo')">
+                            <a href="javascript:" ng-click="doAlterSignInfo(applyInfo)">签约信息变更</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group"  uib-dropdown dropdown-append-to-body="true" ng-if="hasPrimission('app.loanquery.detail.collectiontask')" >
+                    <button  type="button" class="btn btn-default btn-sm" uib-dropdown-toggle ng-disabled="loanCustApplyInfo.repayStatus=='hkzt02'">
+                        发起催收<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.collectiontask.wwsc')">
+                            <a href="javascript:" ng-click="doRecoverCollectionTask()">发起委外收车</a>
+                        </li>
+                        <li role="menuitem" ng-if="false">
+                            <a href="javascript:" ng-click="doPhoneCollection()">电话催收（测试）</a>
+                        </li>
+                        <li role="menuitem" ng-if="false">
+                            <a href="javascript:" ng-click="createTelInterviewTask()">电话回访（测试）</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group"  uib-dropdown dropdown-append-to-body="true"  ng-if="hasPrimission('app.loanquery.detail.accounting')">
+                    <button  type="button" class="btn btn-default btn-sm" uib-dropdown-toggle >
+                        账务处理<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.accounting.publicrepay') && loanCustApplyInfo.repayStatus!='hkzt02'"   >
+                            <a href="javascript:" ng-click="doPublicRepay()">对公还款</a>
+                        </li>
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.accounting.refund') && loanCustApplyInfo.repayStatus!='hkzt05'">
+                            <a href="javascript:" ng-click="doRefund()">退款</a>
+                        </li>
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.accounting.remission')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"  >
+                            <a href="javascript:" ng-click="doRemission()">减免</a>
+                        </li>
+                        <li role="menuitem"  ng-if="hasPrimission('app.loanquery.detail.accounting.allsettle')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"  >
+                            <a href="javascript:" target="_blank"   ui-sref="app.settle.apply-all-settle({appId:applyInfo.appId})">提前结清</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.partsettle')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"   >
+                            <a href="javascript:" target="_blank"   ui-sref="app.settle.apply-part-settle({appId:applyInfo.appId})">部分提前结清</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.alterrepaydate')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"  >
+                            <a href="javascript:" ng-click="doAlterRepayDate()">变更还款日</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.extendperiod')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"  >
+                            <a href="javascript:" ng-click="doExtendPeriod()">展期</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.otherfee')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"   >
+                            <a href="javascript:" ng-click="doOtherFee()"> 新增其他费用</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.offer')  && loanCustApplyInfo.repayStatus!='hkzt02'"   >
+                            <a href="javascript:" ng-click="doOffer()" >人手报盘</a>
+                        </li>
+                        <li role="menuitem"   ng-if="hasPrimission('app.loanquery.detail.accounting.cardispose')  && (loanCustApplyInfo.repayStatus!='hkzt02'&& loanCustApplyInfo.repayStatus!='hkzt05')"  >
+                            <a href="javascript:" ng-click="applyCarDispose()" >车辆处置入账</a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn btn-default btn-sm" type="button"  ng-click="back()"><i class="fa fa-level-up m-r-sm"></i>返回上级</button>
+            </div>
+        </header>
+    </div>
+    <hr/>
+    <div class="data-table-header__actions text-right">
+        <button type="submit"  class="btn btn-m btn-default btn-sm" ng-disabled="isPjPay" ng-click="pjPay()">{{isPjPayDesc}}</button>
+        <button type="submit"  class="btn btn-m btn-default btn-sm"  ng-click="switchApply()">切换关联任务</button>
+    </div>
+    <uib-tabset>
+        <uib-tab index="0">
+            <uib-tab-heading>
+                <span>贷款基本信息</span>
+            </uib-tab-heading>
+            <div ng-include="'module_loanqueryicbc/tpl/form-loanbaseinfo.html'"></div>
+        </uib-tab>
+        <!--
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <span>申请信息</span>
+            </uib-tab-heading>
+            <div ng-include="'module_apply/tpl/form-apply.html'"></div>
+        </uib-tab>
+        <uib-tab index="2"  select="initApplyFileManage()">
+            <uib-tab-heading>
+                <span>申请资料</span>
+            </uib-tab-heading>
+            <ng-file-manage on-init="initApplyFileComponent(interface)" options="{enableUpload:false,enableMove:false,enableDelete:false}"></ng-file-manage>
+        </uib-tab>
+        -->
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <span>还款信息</span>
+            </uib-tab-heading>
+            <div ng-include="'module_loanqueryicbc/tpl/loanquery-repaylist.html'"></div>
+        </uib-tab>
+        <uib-tab index="2"  select="getInsuranceHisList()">
+            <uib-tab-heading>
+                <span>保险信息</span>
+            </uib-tab-heading>
+            <div  ng-include="'module_assetsmanage/tpl/form-his-insurance.html'"/>
+        </uib-tab>
+        <uib-tab index="3"  select="getImportantCollectionLog()">
+            <uib-tab-heading>
+                <span>催收记录</span>
+            </uib-tab-heading>
+            <div ng-include="'module_assetsmanage/tpl/collection-log.html'"></div>
+        </uib-tab>
+        <uib-tab index="4"  select="getTelInterviewHisList()">
+            <uib-tab-heading>
+                <span>电话回访记录</span>
+            </uib-tab-heading>
+            <div  ng-include="'module_assetsmanage/tpl/form-tel-interview-his.html'"/>
+        </uib-tab>
+        <uib-tab index="5"  select="getTelIncomeHisList()">
+            <uib-tab-heading>
+                <span>来电记录</span>
+            </uib-tab-heading>
+            <div  ng-include="'module_assetsmanage/tpl/form-tel-income-his.html'"/>
+        </uib-tab>
+
+        <uib-tab index="12"  select="getAlterInfoLogList()">
+            <uib-tab-heading>
+                <span>客户信息变更记录</span>
+            </uib-tab-heading>
+            <div  ng-include="'module_loanqueryicbc/tpl/alterinfo-his.html'"/>
+        </uib-tab>
+
+
+    </uib-tabset>
+    <div ui-view=""></div>
+</div>

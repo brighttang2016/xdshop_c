@@ -1,0 +1,68 @@
+<div ng-init="initRefundHistoryTaskList()">
+    <div class="panel_main">
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>申请单号</th>
+                    <th>合同号</th>
+                    <th>姓名</th>
+                    <th>证件号码</th>
+                    <th>申请状态</th>
+                    <th>申请时间</th>
+                    <th>挂账金额</th>
+                    <th>退款金额</th>
+                    <th style="width: 15%">当前节点</th>
+                    <th style="width: 5%">审批人</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in taskList">
+                    <td>{{item.appId}}</td>
+                    <td>{{item.contractNo}}</td>
+                    <td>{{item.custName}}</td>
+                    <td>{{item.idNo}}</td>
+                    <td>{{item.applyStatus}}</td>
+                    <td>{{item.applyDate | mysqlDatetime}}</td>
+                    <td>{{item.stayAmount }}</td>
+                    <td>{{item.refundAmount }}</td>
+                    <td>{{item.taskName}}</td>
+                    <td>{{item.assignee}}</td>
+                    <td>
+                        <a href="javascript:" ng-click="showRefundTaskDetail(item)">查看</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                        <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        items-per-page="paginationInfo.pageSize" ng-change="pageChanged()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

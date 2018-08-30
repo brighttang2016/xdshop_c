@@ -1,0 +1,56 @@
+<div   class="panel panel-default">
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>申请人</th>
+            <th>申请日期</th>
+            <th>费用总金额</th>
+            <th>还款状态</th>
+            <th>结清日期</th>
+            <th>剩余本金</th>
+            <th>剩余罚息</th>
+            <th>累计逾期天数</th>
+            <th>累计罚息</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in otherFeeList">
+            <td>{{item.createName}}</td>
+            <td>{{item.applyDate }}</td>
+            <td>{{item.feeTotalAmount}}</td>
+            <td>{{item.repayStatus}}</td>
+            <td>{{item.settleDate }}</td>
+            <td>{{item.repayCapital}}</td>
+            <td>{{item.overDueAmount}}</td>
+            <td>{{item.addupOverdueDay}}</td>
+            <td>{{item.addupOverdueAmount}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="has-divider has-divider--dark"></div>
+    <div class="toolbar">
+        <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+        </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+        <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+            <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+            </div>
+            <div>
+                <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                ng-model="paginationInfo.curPage"
+                                items-per-page="paginationInfo.pageSize" ng-change="pageChanged()"
+                                previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                last-text="&raquo;">
+                </uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>
