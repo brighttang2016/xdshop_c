@@ -46,7 +46,7 @@ var app = angular.module('myApp',[
 
 ]);
 app.config(function($httpProvider) {
-    $httpProvider.interceptors.push('myInterceptor');
+    // $httpProvider.interceptors.push('myInterceptor');
     //console.log($httpProvider.defaults.headers.common);
       //扩充http头
      //$httpProvider.defaults.headers.post['token'] = getCookie('token');
@@ -68,10 +68,11 @@ app.config(function(RestangularProvider){
     });
 });*/
 
-app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal,toaster){
+app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal,toaster,CookieService){
     return Restangular.withConfig(function(configurer){
         configurer.setBaseUrl(TLMS_URL);
         configurer.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+            console.log("setFullRequestInterceptor1111111111111111111111111111111");
             var page = {};
             if (operation == 'getList') {
                 page.pageSize = params.pageSize || $rootScope.paginationInfo.pageSize;
@@ -89,6 +90,7 @@ app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal
             };
         });
         configurer.setErrorInterceptor(function (response, deferred, responseHandler) {
+            console.log("setErrorInterceptor1111111111111111111111111111111");
             // var AuthService = $injector.get('AuthService');
             if (response.status == 401) {
                 /*  if (AuthService.isAuth()) {
@@ -103,15 +105,23 @@ app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal
             }
             else {
                 // modal.error("查询数据错误，请重试！");
-            }
-            ;
+            };
         });
         configurer.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+            console.log("addResponseInterceptor1111111111111111111111111111111");
             if (data.successResponse == false) {
                 // modal.error(data.message);
                 toaster.pop('error','操作失败：',data.message,10000000000);
                 return deferred.reject();
             } else {
+                if(data.Authorization != '' && data.Authorization!=null && data.Authorization != undefined){
+                    console.log("设置Authorization333333333333333333333333333333333333");
+
+                    // CookieService.setCookie("Authorization",data.Authorization);
+                    // CookieService.setCookie("token",data.Authorization);
+                    console.log(CookieService.getCookie("Authorization"));
+                }
+
                 if (operation == 'getList') {
                     if (angular.isArray(data)) {
                         return data;
@@ -134,48 +144,6 @@ app.factory('PujjrPushRestangular',function(Restangular){
     });
 });
 
-app.factory('myInterceptor',function($q,CookieService,$state,$rootScope){
-    var interceptor = {
-        'request':function(config){
-            //console.log("request");
-            //console.log(config);
-            /**
-             * 发送请求时，请求消息头headers是json对象
-             */
-            config.headers['token'] =CookieService.getCookie('token');
-            config.headers['expireTime'] =CookieService.getCookie('expireTime');
-            return config;
-        },
-        'response':function(config){
-            //console.log('response');
-            /*console.log(config);
-            console.log(config.headers['token']);
-            console.log(config.headers("token"));*/
-            /**
-             *接收请求时，接收消息头headers是函数
-             */
-            if(config.status == '200'){
-
-            }else{
-
-            }
-            var token = config.headers('token')+'';
-            var expireTime = config.headers('expireTime')+'';
-            //console.log('token:'+token);
-            //console.log('expireTime:'+expireTime);
-            //console.log(token == 'null');
-            if(token != null && token != undefined && token != '' && token != 'null'){
-                CookieService.setCookie('token',token);
-            }
-            if(expireTime != null && expireTime != undefined && expireTime != '' && token != 'null'){
-                CookieService.setCookie('expireTime',expireTime);
-            }
-            return config;
-        }
-    };
-    return interceptor;
-
-});
 
 app.run(['$rootScope',function($rootScope){
     console.log("run***********************");

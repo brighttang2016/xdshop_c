@@ -18,9 +18,10 @@ angular.module('com.app.user.controller')
             TlmsRestangular.all('auth').post($scope.user)
                 .then(function(data){
                     //StorageService.clearStorage();
-                    CookieService.setCookie('user',$scope.user);
+                   /* CookieService.setCookie('user',$scope.user);
                     StorageService.setStorage('user',$scope.user);
-                    CookieService.setCookie('token',data.token);
+                    CookieService.setCookie('token',data.token);*/
+                    CookieService.setCookie('Authorization',data.Authorization);
                     $rootScope.user = {};
                     // $rootScope.user.userId = "200810405234";
                     console.log("用户登录");

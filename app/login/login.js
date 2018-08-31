@@ -52,7 +52,7 @@ $(document).ready(function(){
                 console.log(xhr.getResponseHeader("WWW-Authenticate"));
 
                 var expireTime = xhr.getResponseHeader("expireTime");
-                setCookie("token",xhr.getResponseHeader("token"),expireTime);
+                // setCookie("token",xhr.getResponseHeader("token"),expireTime);
                 console.log("获取cookie token值："+getCookie("token"));
 
             },
@@ -64,9 +64,9 @@ $(document).ready(function(){
     });
 
     $("#getCookie").bind("click",function(){
-        setCookie("userName","brighttang");
-        setCookie("city","重庆市");
-        setCookie("education","高中");
+        // setCookie("userName","brighttang");
+        // setCookie("city","重庆市");
+        // setCookie("education","高中");
         //console.log("获取cookie education值："+getCookie("education"));
        // console.log("获取cookie city值："+getCookie("city"));
     });

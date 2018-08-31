@@ -106,7 +106,7 @@ angular.module('publishShowApp')
                   templateUrl:'app/module-user/tpl/userLogin.html'
               })
               .state('publishshow',{
-                  url:'/publishshow/:token',
+                  url:'/publishshow/:openId',
                   templateUrl:'app/module-publish/tpl/publish-show.html',
                   controller:'PublishController'
               })

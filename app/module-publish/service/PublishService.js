@@ -14,6 +14,10 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.all("/service/publish/save").post(publish);
         };
 
+        this.commitUserInfo = function (publish) {
+            return TlmsRestangular.all("/service/publish/list").getList();
+        };
+
         /*return {
             "getPublishList":getPublishList,
             "addPublish":addPublish

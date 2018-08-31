@@ -19,7 +19,7 @@ angular.module('com.tang.intercepter',[])
             //console.log(response);
             var token = response.headers('token');
             var expireTime =  response.headers('expireTime');
-            setCookie('token',token,expireTime);
+            // setCookie('token',token,expireTime);
             // 响应成功
             return response; // 或者 $q.when(config);
         },

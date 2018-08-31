@@ -2,8 +2,10 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.publish.controller')
-    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams',
-        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams){
+    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService',
+        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService){
+        // console.log("11111111111111111111111");
+            // console.log($stateParams);
         $scope.publish = {};
         $scope.jumToAdd = function(){
             $state.go("app.publish.add");
@@ -86,8 +88,31 @@ angular.module('com.app.publish.controller')
         $scope.bigTotalItems = 175;
         $scope.bigCurrentPage = 1;
 */
-        $scope.publicShare = function(){
-            alert("share");
+        $scope.publishShare = function(){
+            CookieService.setCookie("")
+            var item = {};
+            item.openId = $stateParams.openId;
+            var modalInstance = $uibModal.open({
+                animation: false,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'app/module-publish/tpl/publish-image-modal.html',
+                controller: 'PublishImageModalController',
+                // controllerAs: '$ctrl',
+                size: 'lg',
+                //appendTo: parentElem,
+                backdrop:'static',
+                resolve: {
+                    item: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (currGpsLinkman) {
+
+            }, function (result) {
+                console.log("取消");
+            });
         };
 
 
