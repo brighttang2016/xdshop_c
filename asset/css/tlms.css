@@ -1,4 +1,4 @@
-p {
+p-style {
     text-align: center;
     color: black;
     font-family: arial;
@@ -11,4 +11,21 @@ p {
 .tlms-border{
     border:1px solid red;
 }
+
+
+.publishshow-margin{
+    margin-left:5px;
+    /*margin-right:5px;*/
+}
+.publishshow-padding{
+    padding:0px 5px 0px 5px;
+}
+.publishshow-border{
+    border:1px solid red;
+}
+
+publishshow-bg{
+    background-color:#ffffff;
+}
+
 

@@ -3,7 +3,7 @@
 /**
  * Config for the router
  */
-angular.module('myApp')
+angular.module('publishShowApp')
   .run(
     [ '$rootScope', '$state', '$stateParams',
       function ($rootScope,$state,$stateParams) {
@@ -94,7 +94,7 @@ angular.module('myApp')
       function ($stateProvider,   $urlRouterProvider) {
           
           $urlRouterProvider
-              .otherwise('signin');
+              .otherwise('publishshow');
           $stateProvider
               .state('app', {
                   //abstract: true,
@@ -106,8 +106,9 @@ angular.module('myApp')
                   templateUrl:'app/module-user/tpl/userLogin.html'
               })
               .state('publishshow',{
-                  url:'/publishshow',
-                  templateUrl:'app/module-publish/tpl/publish-show.html'
+                  url:'/publishshow/:token',
+                  templateUrl:'app/module-publish/tpl/publish-show.html',
+                  controller:'PublishController'
               })
       }
     ]

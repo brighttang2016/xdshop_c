@@ -27,6 +27,20 @@ angular.module('myApp')
                 url:'/list',
                 templateUrl:'app/module-publish/tpl/publish-add.html',
                 controller:'PublishController'
-            })
+        })
+    });
+
+
+angular.module('publishShowApp')
+    .config(function($stateProvider,$urlRouterProvider){
+        $stateProvider.state('publishshow.publish',{
+            url:'/publish',
+            abstract:true/*,
+            template: '<div ui-view class="fade-in-up"></div>'*/
+        }).state('publishshow.publish.add',{
+            url:'/add',
+            templateUrl:'app/module-publish/tpl/publish-add.html',
+            controller:'PublishController'
+        })
     });
 

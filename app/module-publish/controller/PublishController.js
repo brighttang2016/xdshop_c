@@ -2,11 +2,17 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.publish.controller')
-    .controller('PublishController',['$scope','$rootScope','$state','StorageService','PublishService','$compile','toaster',
-        function($scope,$rootScope,$state,StorageService,PublishService,$compile,toaster){
+    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams',
+        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams){
         $scope.publish = {};
         $scope.jumToAdd = function(){
             $state.go("app.publish.add");
+        };
+        $scope.initPublishShow = function(){
+            console.log("初始化发布展示页内容");
+
+            var token = $stateParams.token;
+            console.log(token);
         };
 
         $scope.initPublishList = function(){
