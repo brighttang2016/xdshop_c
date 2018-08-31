@@ -15,7 +15,7 @@ p-style {
 
 .publishshow-margin{
     margin-left:5px;
-    /*margin-right:5px;*/
+    margin-right:5px;
 }
 .publishshow-padding{
     padding:0px 5px 0px 5px;
@@ -24,8 +24,16 @@ p-style {
     border:1px solid red;
 }
 
-publishshow-bg{
+.publishshow-bg{
     background-color:#ffffff;
+}
+
+.publishshow_footer{
+    height: 50px;
+    width: 100%;
+    background-color:#FF8C07;
+    position: fixed;
+    bottom: 0;
 }
 
 
