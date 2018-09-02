@@ -34,9 +34,21 @@
     clipboard.on("error",function () {//复制失败的回调
         $popup.show('复制微信号失败！');
     })
+
+</script>
+<script>
+    function pageOnload(){
+        var patrn = /^\d+(\.\d+){1}$/;
+        alert(patrn.test(1.1434));
+        alert(patrn.test(0.13));
+        alert(patrn.test('网'));
+        alert(Math.ceil(2.2));
+    };
 </script>
 
-<body>
+
+
+<body onload = "pageOnload()">
 
 <div class="modal-body">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">

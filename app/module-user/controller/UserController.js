@@ -2,7 +2,7 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.user.controller')
-    .controller('UserController',['$scope','$rootScope','TlmsRestangular','$state','CookieService','StorageService',function($scope,$rootScope,TlmsRestangular,$state,CookieService,StorageService){
+    .controller('UserController',['$scope','$rootScope','TlmsRestangular','$state','CookieService',function($scope,$rootScope,TlmsRestangular,$state,CookieService){
 
         // console.log("*****UserController*****");
         // console.log($rootScope);

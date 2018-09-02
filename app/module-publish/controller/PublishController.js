@@ -2,13 +2,14 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.publish.controller')
-    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout',
-        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout){
+    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout','ArticleService','DomService',
+        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout,ArticleService,DomService){
         // console.log("11111111111111111111111");
         // console.log($stateParams);
        /* CKEDITOR.replace( 'scenicDesc' );
         CKEDITOR.replace( 'publishRule');*/
         $scope.publish = {};
+        $scope.article = {};
         $scope.publish.id = $stateParams.id;
         $scope.currItem = {};
         //新增发布，初始化
@@ -19,33 +20,15 @@ angular.module('com.app.publish.controller')
             });
         };
 
-
-        $scope.updateCkeditor = function(ckEditorId,updateHtml){
-
-            if(CKEDITOR.instances[ckEditorId]){//如果CKEDITOR已经创建存在则执行destroy
-                CKEDITOR.instances[ckEditorId].destroy();
-            }
-            CKEDITOR.replace(ckEditorId);
-            CKEDITOR.instances[ckEditorId].setData(updateHtml);
-        };
         //编辑发布，初始化
         $scope.initPublishEdit = function(){
-            // console.log("5555555555555555555");
-            // console.log( $scope.publish);
-            // $scope.publish.id = $stateParams.id;
+            ArticleService.getArticle($stateParams.id).then(function(response){
+                $scope.article = response.data;
+            });
 
-            // CKEDITOR.instances.publishRule.setData("<div style='border:1px solid red'>11111111</div>");
-            // CkeditorService.initXdshopCkeditor("publishRule","请录入规则",300);
             PublishService.getPublish($stateParams.id).then(function(response){
-                console.log("5555555555555555555");
-                console.log(response);
                 $scope.publish = response.data;
-                //可以实现更新
-                console.log(CKEDITOR.instances);
-                console.log(CKEDITOR.instances.publishRule);
-                var test = 'publishRule';
-                console.log(CKEDITOR.instances[test]);
-
+                //编辑器赋值
                 CkeditorService.updateCkeditor('publishRule',$scope.publish.publishRule);
                 CkeditorService.updateCkeditor('scenicDesc',$scope.publish.scenicDesc);
                 /*if(CKEDITOR.instances.publishRule){//如果CKEDITOR已经创建存在则执行destroy
@@ -91,20 +74,13 @@ angular.module('com.app.publish.controller')
                 CKEDITOR.instances.publishRule.updateElement();
                 CKEDITOR.instances.scenicDesc.updateElement();*/
 
-
-
-
                 //查询图片资源
                 var typeCode = "01";
                 PublishService.queryPublishResource(typeCode,$scope.publish.id).then(function(response){
-                    // console.log("获取资源");
-                    // console.log(response);
                     $scope.publishResourceList = response.data;
                 },function(response){
-
                 });
             },function(response){
-
             });
         };
 
@@ -115,49 +91,80 @@ angular.module('com.app.publish.controller')
         $scope.publishEdit = function(item){
             $state.transitionTo("app.publish.edit",{"id":item.id});
         };
+        //打开关闭openFlag
+        $scope.openPublish = function(item){
+            if(item.openFlag){
+                item.openFlag = false;
+            }else{
+                item.openFlag = true;
+            }
+            PublishService.savePublish(item).then(function(response){
+                if(response.successResponse == true){
+                    toaster.pop('success', '操作提醒', '操作成功');
+                }else{
+                    toaster.pop('error', '操作提醒', '操作失败');
+                }
+            });
+        };
 
+        //初始化发布展示页内容
         $scope.initPublishShow = function(){
-            console.log("初始化发布展示页内容");
-            console.log($stateParams);
             //获取参数
             var openId = $stateParams.openId;
             var Authorization = $stateParams.Authorization;
             var publishId = $stateParams.publishId;
             //true：预览模式；false：非预览模式
             $scope.isPreview = CookieService.getCookie("isPreview");
-            // console.log(8888888888888888888888888888888888888);
             CookieService.setCookie('Authorization',Authorization);
-
             /**
-             * 获取活动介绍代码
+             * 获取发布信息
              */
-
-            /**
-             * 获取景区介绍代码
-             */
-
+            PublishService.getPublish(publishId).then(function(response){
+                $scope.publish = response.data;
+                $scope.starArray = [];
+                //星级处理
+                var starNum =  $scope.publish.starNum;
+                //小数判定
+                var patrn = /^\d+(\.\d+){1}$/;
+                //总星数
+                var starTotal = 0;
+                if(patrn.test(starNum)){
+                    //小数
+                    starTotal = Math.ceil(starNum);
+                    for(var i = 0;i < starTotal - 1;i ++){
+                        $scope.starArray.push({"starType":"fa-star"});
+                    }
+                    $scope.starArray.push({"starType":"fa-star-half-full"});
+                }else{
+                    //整数
+                    starTotal = starNum;
+                    for(var i = 0;i < starTotal;i ++){
+                        $scope.starArray.push({"starType":"fa-star"});
+                    }
+                }
+                DomService.appendRichText('publishRule',$scope.publish.publishRule);
+                DomService.appendRichText('scenicDesc',$scope.publish.scenicDesc);
+            });
         };
 
         //初始化发布列表
         $scope.initPublishList = function(){
-            // console.log("initPublishList");
             $rootScope.resetPage();
             $scope.loading = PublishService.getPublishList().then(function(response){
-                // console.log(response);
                 $scope.publishList = response;
             });
         };
 
         //保存发布
         $scope.savePublish = function(){
-            // console.log("11111111111111111111111111111111111111");
-            // console.log($scope.publish);
             $scope.publish.publishRule =  CKEDITOR.instances.publishRule.getData();
             $scope.publish.scenicDesc =  CKEDITOR.instances.scenicDesc.getData();
+            $scope.article.publishId = $scope.publish.id;
+            $scope.publish.article =  $scope.article;
             $scope.loading = PublishService.savePublish($scope.publish).then(function(response){
                 if(response.successResponse == true){
                     toaster.pop('success', '操作提醒', '增加成功');
-                    // $rootScope.back();
+                    $rootScope.back();
                 }else{
                     toaster.pop('error', '操作提醒', '新增失败');
                 }
@@ -165,24 +172,17 @@ angular.module('com.app.publish.controller')
         };
 
 
-        $scope.getRichText = function(){
+       /* $scope.getRichText = function(){
             var richText = CKEDITOR.instances.editor1.getData();
-            // CKEDITOR.instances.editor1.setData("111111111111");
-           console.log("富文本：");
-           console.log(richText);
             var mobileIcon=richText;
             var richTextDom = angular.element(mobileIcon);
             var richTextElement = $compile(mobileIcon)($scope);
-            console.log(richTextElement);
-            console.log(angular.element(document.getElementById("richTextScan")));
-            console.log(angular.element("#richTextScan"));
 
             var  richTextScanDom = angular.element(document.getElementById("richTextScan"));
-            console.log(richTextScanDom);
             richTextScanDom.children().remove();
             richTextScanDom.append(richTextDom);
 
-        };
+        };*/
 
         $scope.queryList = function(){
             console.log("queryList");
@@ -192,27 +192,11 @@ angular.module('com.app.publish.controller')
             });
         };
 
-
-/*        $scope.totalItems = 64;
-        $scope.currentPage = 4;*/
-
-      /*  $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };*/
-
-        /*$scope.pageChanged = function() {
-            $log.log('Page changed to: ' + $scope.currentPage);
-        };*/
-/*
-        $scope.maxSize = 5;
-        $scope.bigTotalItems = 175;
-        $scope.bigCurrentPage = 1;
-*/
-        //获取分享图片
+        //获取分享图片给好友
         $scope.publishShare = function(){
-            // CookieService.setCookie("")
             var item = {};
             item.openId = $stateParams.openId;
+            item.publishId = $stateParams.publishId;
             var modalInstance = $uibModal.open({
                 animation: false,
                 ariaLabelledBy: 'modal-title',
@@ -259,15 +243,12 @@ angular.module('com.app.publish.controller')
                 }
             });
             modalInstance.result.then(function (result) {
-                //根据typeCode和publishId，刷新所上传的图片
-                // console.log("555555555555555555555555555555上传完成");
-                // console.log(result);
                 PublishService.queryPublishResource(result.typeCode,result.publishId).then(function(response){
-                    console.log(response);
+                    // console.log(response);
                     $scope.publishResourceList = response.data;
                 });
             }, function (result) {
-                console.log("取消");
+                // console.log("取消");
             });
         };
 
@@ -290,13 +271,13 @@ angular.module('com.app.publish.controller')
             });
         };
         //发布活动编辑页面，预览发布
-        $scope.preViewPublish = function(){
+        $scope.preViewPublish = function(publishId){
             var stateParams = {};
             stateParams.openId = "";
             stateParams.Authorization = CookieService.getCookie("Authorization");
             // $state.transitionTo('publishshow',stateParams);
             //本机预览测试
-            var publishShowUrl = "http://localhost:9020/xdshop_c/dist/index_publish.html?_ijt=ojcbtgbgkgtu5q1ln6mstttpnv#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/1d9e7251baf793b9";
+            var publishShowUrl = "http://localhost:9020/xdshop_c/dist/index_publish.html?_ijt=ojcbtgbgkgtu5q1ln6mstttpnv#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/"+publishId;
             window.open(publishShowUrl);
         };
 

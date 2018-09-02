@@ -6,7 +6,7 @@
                     <span class="fs-title"><i class="fa fa-globe mr"></i>编辑发布({{publish.id}})</span>
                 </div>
                 <div class="data-table-header__actions">
-                    <button class="btn btn-sm btn-default" type="button" ng-click="preViewPublish()"><i class="fa fa-plus m-r-sm"></i>预览</button>
+                    <button class="btn btn-sm btn-default" type="button" ng-click="preViewPublish(publish.id)"><i class="fa fa-plus m-r-sm"></i>预览</button>
                     <button class="btn btn-sm btn-default" type="button" ng-click="back()"><i class="fa fa-plus m-r-sm"></i>返回</button>
                 </div>
             </header>
@@ -15,12 +15,31 @@
         <div class="form-horizontal" cg-busy="{promise:loading,message:'正在查询，请稍后...'}">
             <div>&nbsp;</div>
             <ng-form  name="form">
+
+                <!--景区图片资源-->
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">
+                        图片资源 <a href="javascript:0" ng-click="uploadResource('01')">(<i class="fa fa-arrow-up m-r-sm" ></i>点击上传图片)</a>
+                    </legend>
+                    <!--缩略图-->
+                    <div class="row" style="border:0px solid red">
+                        <input  id="currItem" type="text" class="form-control publishshow-hidden"  ng-model="currItem.url"/>
+                        <div class="col-sm-3 col-md-3" style="border:0px solid red; " ng-repeat="item in publishResourceList" align="center">
+                            <a href="javascript:0" class="thumbnail" style="border:1px solid #AFADAD;margin-top:5px;margin-bottom:5px">
+                                <img style="height:160px" src="{{item.url}}"
+                                     alt="景区资源文件">
+                            </a>
+                            <button style="border:0px solid green;margin-top:0px;margin-bottom:10px" data-clipboard-target="#currItem" class="btn btn-xs btn-default" type="button" ng-click="getItemUrl(item.url)">点击获取图片地址</button>
+                        </div>
+                    </div>
+                </fieldset>
+
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border">基础信息</legend>
                     <div class="form-group form-group-sm">
                         <label class="col-sm-2 control-label">标题：</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control"  ng-model="publish.title" placeholder="" required verify-number="" ng-maxlength="10">
+                            <input type="text" class="form-control"  ng-model="publish.title" placeholder="" required >
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
@@ -43,25 +62,22 @@
                             <input type="text" class="form-control"  ng-model="publish.priceNow" placeholder="" required verify-number="" ng-maxlength="10">
                         </div>
                     </div>
-                </fieldset>
 
-                <!--景区图片资源-->
-                <fieldset class="scheduler-border">
-                    <legend class="scheduler-border">
-                        图片资源 <a href="javascript:0" ng-click="uploadResource('01')">(<i class="fa fa-arrow-up m-r-sm" ></i>点击上传图片)</a>
-                    </legend>
-                    <!--缩略图-->
-                    <div class="row" style="border:0px solid red">
-                        <input  id="currItem" type="text" class="form-control publishshow-hidden"  ng-model="currItem.url"/>
-                        <div class="col-sm-3 col-md-3" style="border:0px solid red; " ng-repeat="item in publishResourceList" align="center">
-                            <a href="javascript:0" class="thumbnail" style="border:1px solid #AFADAD;margin-top:5px;margin-bottom:5px">
-                                <img style="height:250px" src="{{item.url}}"
-                                     alt="景区资源文件">
-                            </a>
-                            <button style="border:0px solid green;margin-top:0px;margin-bottom:10px" data-clipboard-target="#currItem" class="btn btn-xs btn-default" type="button" ng-click="getItemUrl(item.url)">点击获取图片地址</button>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">图文消息标题：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"  ng-model="article.title" placeholder="" required>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">图文消息图片地址：</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"  ng-model="article.picUrl" placeholder="" required>
                         </div>
                     </div>
                 </fieldset>
+
+
 
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border">活动规则</legend>

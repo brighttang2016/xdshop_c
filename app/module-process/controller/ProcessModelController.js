@@ -2,7 +2,7 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.process.controller')
-    .controller('ProcessModelController',['$scope','$rootScope','TlmsRestangular','$state','StorageService',function($scope,$rootScope,TlmsRestangular,$state,StorageService){
+    .controller('ProcessModelController',['$scope','$rootScope','TlmsRestangular','$state',function($scope,$rootScope,TlmsRestangular,$state){
 
         $scope.queryModel = function(){
             TlmsRestangular.one('process/model').getList()

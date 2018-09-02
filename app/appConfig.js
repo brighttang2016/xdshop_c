@@ -1,8 +1,8 @@
 /**
  * Created by pujjr on 2017/7/18.
  */
-var BASE_URL='http://127.0.0.1:9090/xdshop';
-var TLMS_URL='http://127.0.0.1:9090/xdshop';
+var BASE_URL='http://192.168.1.102:9090/xdshop';
+var TLMS_URL='http://192.168.1.102:9090/xdshop';
 //前端发起模拟推送地址
 var PUJJR_PUSH_URL='http://localhost:8070/pjmessage-web';
 var SERVER_URL = {

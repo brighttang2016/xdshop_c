@@ -11,23 +11,20 @@
     <div class="container" style="background-color:#808080; color:#ffffff">
         <div class="row">
             <div class="col-xs-12 col-md-6 col-lg-8">
-                <h4>【爱在曼谷园】水陆联欢，日夜通玩，快带心爱的TA来免费畅玩吧！</h4>
+                <!--<h4>【爱在曼谷园】水陆联欢，日夜通玩，快带心爱的TA来免费畅玩吧！</h4>-->
+                <h4>{{ publish.title}}</h4>
             </div>
         </div>
 
         <div class="row">
             <div class="col-xs-6 col-md-6 col-lg-8 text-left">
                 <h5 style="color:#FF8C07">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-empty"></i>
+                    <i ng-repeat="item in starArray" class="fa {{item.starType}}"></i>
                 </h5>
             </div>
-            <div class="col-xs-6 col-md-6 col-lg-8 text-right">
+            <!--<div class="col-xs-6 col-md-6 col-lg-8 text-right">
                 <span class="label label-success">2000人关注</span>
-            </div>
+            </div>-->
         </div>
     </div>
     <br />
@@ -39,10 +36,10 @@
                 <i class="fa fa-yen m-r-sm"></i>0
             </div>
             <div class="col-xs-6 col-md-6 col-lg-8">
-                <del>参考价格：999.99</del>
+                <del>参考价格：{{publish.priceInit}}</del>
             </div>
             <div class="col-xs-4 col-md-6 col-lg-8">
-                剩余：999张
+                剩余：{{publish.ticketRemain}}张
             </div>
         </div>
     </div>
@@ -51,8 +48,8 @@
     <!--活动规则-->
     <div class="container">
         <div class="row text-left">
-            <div class="col-xs-12 col-md-6 col-lg-8">
-                <p><span style="font-size:16px"><span style="color:#e67e22"><strong>好友助力名单规则</strong></span></span></p>
+            <div class="col-xs-12 col-md-6 col-lg-8" id="publishRule">
+                <!--<p><span style="font-size:16px"><span style="color:#e67e22"><strong>好友助力名单规则</strong></span></span></p>
                 <p>1.活动时间：2018.8.16&mdash;2018.8.19 18:00截止&nbsp;<br />
                     使用时间：8.16-9.30&nbsp;<br />
                     入园时间：9:00-22:30&nbsp;<br />
@@ -65,7 +62,7 @@
                     ④若发现用户存在刷单、虚假用户助力等违规行为，平台有权判定该活动订单失效；&nbsp;<br />
                     ⑤收到【订购成功短信】后，凭短信验证入园；&nbsp;<br />
                     ⑥景区地址：重庆九龙坡区奥体中心1号西门南侧&nbsp;<br />
-                    ⑦活动主办方可在法律规定允许范围内对本次活动规则进行解释并作出适当修改。</p>
+                    ⑦活动主办方可在法律规定允许范围内对本次活动规则进行解释并作出适当修改。</p>-->
             </div>
         </div>
     </div>
@@ -79,8 +76,8 @@
                     </h4>
                 </label>
             </div>
-            <div class="col-xs-12 col-md-6 col-lg-8">
-                <p style="text-align:center">这是景点1</p>
+            <div class="col-xs-12 col-md-6 col-lg-8" id="scenicDesc">
+                <!--<p style="text-align:center">这是景点1</p>
 
                 <p style="text-align:center"><img alt="" src="http://pcms-client.oss-cn-hangzhou.aliyuncs.com/img/b20.jpg" style="height:256px; width:256px" /></p>
 
@@ -96,7 +93,7 @@
                     ④若发现用户存在刷单、虚假用户助力等违规行为，平台有权判定该活动订单失效；&nbsp;<br />
                     ⑤收到【订购成功短信】后，凭短信验证入园；&nbsp;<br />
                     ⑥景区地址：重庆九龙坡区奥体中心1号西门南侧&nbsp;<br />
-                    ⑦活动主办方可在法律规定允许范围内对本次活动规则进行解释并作出适当修改。</p>
+                    ⑦活动主办方可在法律规定允许范围内对本次活动规则进行解释并作出适当修改。</p>-->
             </div>
         </div>
     </div>

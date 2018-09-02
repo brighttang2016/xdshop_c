@@ -44,7 +44,7 @@ publishShowApp.config(['$locationProvider',function($locationProvider){
 }]);
 
 
-publishShowApp.factory('TlmsRestangular2',function(Restangular, $state, $rootScope,$uibModal,toaster,CookieService){
+publishShowApp.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal,toaster,CookieService){
     return Restangular.withConfig(function(configurer){
         configurer.setBaseUrl(TLMS_URL);
         configurer.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {

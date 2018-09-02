@@ -57,8 +57,7 @@
                     <th>总票数</th>
                     <th>已售票数</th>
                     <th>剩余票数</th>
-                    <th>开始时间</th>
-                    <th>结束时间</th>
+                    <th>启用状态</th>
                     <th>操作</th>
                 </tr>
                 <tbody>
@@ -69,11 +68,11 @@
                     <td>{{item.ticketTotal}}</td>
                     <td>{{item.ticketSale}}</td>
                     <td>{{item.ticketRemain}}</td>
-                    <td>{{item.timeBegin}}</td>
-                    <td>{{item.timeEnd}}</td>
+                    <td>{{item.openFlag == true? "已启用":"已停用"}}</td>
                     <td>
                         <!--<button ng-if="item.isShowDetail" class="btn btn-xs btn-default" type="button" ng-click="applyDetail(item)"><i class="fa fa-edit m-r-sm"></i>详细</button>-->
                         <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="publishEdit(item)"><i class="fa fa-edit m-r-sm"></i>详细</button>
+                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="openPublish(item)"><i class="fa fa-edit m-r-sm"></i>{{item.openFlag == true ? "停用":"启用"}} </button>
                     </td>
                 </tr>
                 </tbody>

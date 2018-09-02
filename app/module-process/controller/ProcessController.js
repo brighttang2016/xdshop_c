@@ -66,8 +66,8 @@ angular.module('com.app.process.controller')
             $state.go("app.process.query.dgrmResource");
         };*/
         $scope.readResource = function(){
-            var procInstId = StorageService.getStorage('procInstId')+"";
-            window.open("http://localhost:8090/tlms-web/source/"+procInstId+"/resource");
+            // var procInstId = StorageService.getStorage('procInstId')+"";
+            // window.open("http://localhost:8090/tlms-web/source/"+procInstId+"/resource");
         };
 
         /**
@@ -114,24 +114,24 @@ angular.module('com.app.process.controller')
         $scope.readDgrmResource = function(){
             //$scope.process.processInstId = processInstId;
             //$scope.process.processInstId = $rootScope.process.processInstId;
-            $scope.process = {};
-            var procInstId =StorageService.getStorage('procInstId')+"";
-            $scope.process.processInstId = procInstId;
-            $scope.process.resourceType = 'dgrmResource';
-            console.log($rootScope);
-            console.log($scope);
+            // $scope.process = {};
+            // // var procInstId =StorageService.getStorage('procInstId')+"";
+            // $scope.process.processInstId = procInstId;
+            // $scope.process.resourceType = 'dgrmResource';
+            // console.log($rootScope);
+            // console.log($scope);
 
             /**
              * 流程图模板页面显示流程图
              * @type {string}
              */
-            $scope.dgrmSrc = 'http://localhost:8090/tlms-web/source/'+procInstId+'/dgrmResource?uuid='+new Date();
-            $state.go("app.process.detail.dgrmResource");
+            // $scope.dgrmSrc = 'http://localhost:8090/tlms-web/source/'+procInstId+'/dgrmResource?uuid='+new Date();
+            // $state.go("app.process.detail.dgrmResource");
             /**
              * diagram view 显示流程图
              */
 
-            window.open('html/diagramviewer/showDiagramViewer.html');
+            // window.open('html/diagramviewer/showDiagramViewer.html');
         };
 
 
@@ -154,10 +154,10 @@ angular.module('com.app.process.controller')
 
             //$rootScope.process = {processInstId:procInstId};
             //$scope.process.procInstId = procInstId;
-            StorageService.setStorage("procInstId",procInstId);
-            StorageService.setStorage("pdid",pdid);
-            console.log($rootScope);
-            $state.go("app.process.detail");
+            // StorageService.setStorage("procInstId",procInstId);
+            // StorageService.setStorage("pdid",pdid);
+            // console.log($rootScope);
+            // $state.go("app.process.detail");
         };
 
         $scope.goBack = function(){
@@ -173,30 +173,30 @@ angular.module('com.app.process.controller')
          * 审批操作
          */
         $scope.agree = function(){
-            TlmsRestangular.one('process/agree', StorageService.getStorage('procInstId')).post()
-                .then(function(records){
-                });
+            // TlmsRestangular.one('process/agree', StorageService.getStorage('procInstId')).post()
+            //     .then(function(records){
+            //     });
         };
         $scope.reject = function(){
-            TlmsRestangular.one('process/reject', StorageService.getStorage('procInstId')).post()
-                .then(function(records){
-                });
+            // TlmsRestangular.one('process/reject', StorageService.getStorage('procInstId')).post()
+            //     .then(function(records){
+            //     });
         };
         /**
          * 签收
          */
         $scope.claim = function(){
-            TlmsRestangular.one('process/claim', StorageService.getStorage('procInstId')).post()
-                .then(function(records){
-                });
+            // TlmsRestangular.one('process/claim', StorageService.getStorage('procInstId')).post()
+            //     .then(function(records){
+            //     });
         };
         /**
          * 委派
          */
         $scope.delegate = function(){
-            TlmsRestangular.one('process/delegate', StorageService.getStorage('procInstId')).post()
-                .then(function(records){
-                });
+            // TlmsRestangular.one('process/delegate', StorageService.getStorage('procInstId')).post()
+            //     .then(function(records){
+            //     });
         };
 
     }]);
