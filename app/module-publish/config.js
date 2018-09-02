@@ -24,9 +24,13 @@ angular.module('myApp')
             url:'/list',
             templateUrl:'app/module-publish/tpl/publish-list.html'
         }).state('app.publish.add',{
-                url:'/list',
+                url:'/add',
                 templateUrl:'app/module-publish/tpl/publish-add.html',
                 controller:'PublishController'
+        }).state('app.publish.edit',{
+            url:'/edit/:id',
+            templateUrl:'app/module-publish/tpl/publish-edit.html',
+            controller:'PublishController'
         })
     });
 

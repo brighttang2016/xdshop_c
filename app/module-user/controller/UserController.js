@@ -4,36 +4,38 @@
 angular.module('com.app.user.controller')
     .controller('UserController',['$scope','$rootScope','TlmsRestangular','$state','CookieService','StorageService',function($scope,$rootScope,TlmsRestangular,$state,CookieService,StorageService){
 
-        console.log("*****UserController*****");
-        console.log($rootScope);
-        console.log(StorageService.getStorage("user"));
-        if( StorageService.getStorage("user") != null  && StorageService.getStorage("user") != 'user')
+        // console.log("*****UserController*****");
+        // console.log($rootScope);
+        // console.log(StorageService.getStorage("user"));
+       /* if( StorageService.getStorage("user") != null  && StorageService.getStorage("user") != 'user'){
             $rootScope.user = StorageService.getStorage("user");
-        else{
+        }else{
             //StorageService.clearStorage();
-        }
+        }*/
         //$rootScope.user = CookieService.getCookie('user');
         $scope.signIn = function(){
             console.log($scope.user);
             TlmsRestangular.all('auth').post($scope.user)
-                .then(function(data){
+                .then(function(response){
                     //StorageService.clearStorage();
-                   /* CookieService.setCookie('user',$scope.user);
+                  /*  CookieService.setCookie('user',$scope.user);
                     StorageService.setStorage('user',$scope.user);
                     CookieService.setCookie('token',data.token);*/
-                    CookieService.setCookie('Authorization',data.Authorization);
+                    CookieService.setCookie('Authorization',response.data.Authorization);
                     $rootScope.user = {};
                     // $rootScope.user.userId = "200810405234";
-                    console.log("用户登录");
+                   /* console.log("用户登录");
                     console.log(data);
                     console.log($scope);
                     console.log($scope.user);
-                    console.log($scope.user.userId);
+                    console.log($scope.user.userId);*/
                     // var userId = $scope.user.userId + '';
-                    // $rootScope.user.userId = $scope.user.userId;
-                    // console.log($rootScope);
+
+                    $rootScope.user.userId =response.data.account.accountId;
+                    $rootScope.user.name = "test";
+                    console.log($rootScope);
+                    console.log(response.data.account.accountId);
                     // $rootScope.user.userId = userId;
-                    $rootScope.user.accountId = data.accountId;
                     // console.log($rootScope);
                     $state.go('app');
                 });

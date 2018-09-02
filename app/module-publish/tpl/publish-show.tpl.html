@@ -1,4 +1,13 @@
+<!--活动展示页-->
 <div  ng-init="initPublishShow()">
+    <div class="container" style="border:1px solid red" ng-if="isPreview==true">
+        <div class="row" align="right" style="border:1px solid red">
+            <button class="btn btn-sm btn-default" type="button" ng-click="back()"><i class="fa fa-plus m-r-sm"></i>返回</button>
+        </div>
+        <br/>
+    </div>
+
+
     <div class="container" style="background-color:#808080; color:#ffffff">
         <div class="row">
             <div class="col-xs-12 col-md-6 col-lg-8">
@@ -249,7 +258,7 @@
 
     <div style=" height: 50px;width: 100%;"></div>
     <div class="text-center publishshow_footer" ng-click="publishShare()">
-        <a class="navbar-brand" style="color:#ffffff" href="#">分享给好友</a>
+        <a class="navbar-brand" style="color:#ffffff" href="javascript:0">分享给好友</a>
     </div>
 
 

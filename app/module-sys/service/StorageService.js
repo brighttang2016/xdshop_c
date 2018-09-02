@@ -22,7 +22,7 @@ angular.module('com.tlms.sys.service')
             }catch(e){
                 ret = window.localStorage[name];
             }
-            console.log('ret:'+ret);
+            // console.log('ret:'+ret);
             return  ret;
         };
 

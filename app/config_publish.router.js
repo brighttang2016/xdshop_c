@@ -5,20 +5,20 @@
  */
 angular.module('publishShowApp')
   .run(
-    [ '$rootScope', '$state', '$stateParams',
-      function ($rootScope,$state,$stateParams) {
-          console.log("*************myApp run 开始****************************");
+    [ '$rootScope', '$state', '$stateParams','CookieService',
+      function ($rootScope,$state,$stateParams,CookieService) {
+          // console.log("*************myApp run 开始****************************");
 
           //注册路由变更成功处理方法
           $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
-              console.log("$stateChangeSuccess");
-              console.log(event);
-              console.log(toState);
-              console.log(toParams);
-              console.log(fromState);
-              console.log(fromParams);
-              console.log($rootScope.vm);
-              console.log($rootScope.paginationInfo);
+              // console.log("$stateChangeSuccess");
+              // console.log(event);
+              // console.log(toState);
+              // console.log(toParams);
+              // console.log(fromState);
+              // console.log(fromParams);
+              // console.log($rootScope.vm);
+              // console.log($rootScope.paginationInfo);
               var data = {};
                data.paginationInfo = $rootScope.paginationInfo;
                data.vm = $rootScope.vm;
@@ -65,7 +65,7 @@ angular.module('publishShowApp')
 
           //注册路由变更开始处理方法
           $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-              console.log("stateChangeStart");
+              // console.log("stateChangeStart");
           });
 
           //返回上级路由(采用堆栈冒泡方式)
@@ -85,7 +85,7 @@ angular.module('publishShowApp')
 
         //重置缓存
           $rootScope.resetCache();
-          console.log("*************myApp run 结束****************************");
+          // console.log("*************myApp run 结束****************************");
       }
     ]
   )
@@ -106,7 +106,7 @@ angular.module('publishShowApp')
                   templateUrl:'app/module-user/tpl/userLogin.html'
               })
               .state('publishshow',{
-                  url:'/publishshow/:openId',
+                  url:'/publishshow/:openId/:Authorization/:publishId',
                   templateUrl:'app/module-publish/tpl/publish-show.html',
                   controller:'PublishController'
               })

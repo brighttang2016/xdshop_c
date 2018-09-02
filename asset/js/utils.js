@@ -7,7 +7,7 @@
  * @param value cookie键对应值
  * @param expire cookie超时时间
  */
-function setCookie(name,value,expire){
+function setCookie2(name,value,expire){
     console.log("setCookie,"+"name:"+name+",value:"+value+",expire:"+expire);
     var timeNow = new Date();
     var expireTime = new Date();

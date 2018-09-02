@@ -36,4 +36,8 @@ p-style {
     bottom: 0;
 }
 
+.publishshow-hidden{
+    position:absolute;left:-100000px
+}
+
 

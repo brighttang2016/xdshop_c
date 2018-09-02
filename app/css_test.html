@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Bootstrap 实例 - 固定到底部</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <<!--script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <style>
 
         .footer{
@@ -23,7 +23,21 @@
         }
     </style>
 </head>
+
+<!--粘贴板-->
+<script src='../bower_components/clipboard/dist/clipboard.js'>
+
+    clipboard = new Clipboard('.btn');
+    clipboard.on('success', function() {
+        $popup.show('复制微信号成功！');
+    });
+    clipboard.on("error",function () {//复制失败的回调
+        $popup.show('复制微信号失败！');
+    })
+</script>
+
 <body>
+
 <div class="modal-body">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->

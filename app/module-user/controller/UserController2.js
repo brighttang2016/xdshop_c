@@ -123,7 +123,7 @@ angular.module('com.app.user.controller')
          * 用户登录
          */
         $scope.userLogin = function(){
-            CookieService.setCookie('userName','brighttang');
+            // CookieService.setCookie('userName','brighttang');
             TlmsRestangular.one('login').one('userLogin').post()
                 .then(function(data){
                     console.log(data);

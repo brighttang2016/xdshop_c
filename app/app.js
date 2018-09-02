@@ -25,6 +25,7 @@ var app = angular.module('myApp',[
     'ngWebSocket',
     'restangular',
     'cgBusy',
+    'angularFileUpload',
     'com.tang.intercepter',
     'com.tang.controller.MyController1',
     'com.tang.service.XhrService',
@@ -46,7 +47,7 @@ var app = angular.module('myApp',[
 
 ]);
 app.config(function($httpProvider) {
-    // $httpProvider.interceptors.push('myInterceptor');
+    $httpProvider.interceptors.push('myInterceptor');
     //console.log($httpProvider.defaults.headers.common);
       //扩充http头
      //$httpProvider.defaults.headers.post['token'] = getCookie('token');
@@ -72,12 +73,14 @@ app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal
     return Restangular.withConfig(function(configurer){
         configurer.setBaseUrl(TLMS_URL);
         configurer.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
-            console.log("setFullRequestInterceptor1111111111111111111111111111111");
+            if(CookieService.getCookie('Authorization') == null || CookieService.getCookie('Authorization') == '' || CookieService.getCookie('Authorization')==undefined){
+                $state.go('signin');
+            }
             var page = {};
             if (operation == 'getList') {
                 page.pageSize = params.pageSize || $rootScope.paginationInfo.pageSize;
                 page.curPage = params.curPage || $rootScope.paginationInfo.curPage;
-            };
+            }
             angular.extend($rootScope.vm,page);
             angular.extend($rootScope.vm, params);
             var newHeaders = {
@@ -90,7 +93,6 @@ app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal
             };
         });
         configurer.setErrorInterceptor(function (response, deferred, responseHandler) {
-            console.log("setErrorInterceptor1111111111111111111111111111111");
             // var AuthService = $injector.get('AuthService');
             if (response.status == 401) {
                 /*  if (AuthService.isAuth()) {
@@ -108,18 +110,28 @@ app.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal
             };
         });
         configurer.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
-            console.log("addResponseInterceptor1111111111111111111111111111111");
+           /* console.log("addResponseInterceptor1111111111111111111111111111111");
+            CookieService.setCookie("test","test");
+            console.log(data.successResponse == false);
+            console.log(data.Authorization != '' && data.Authorization!=null && data.Authorization != undefined);
+            console.log(data.data);
+            console.log(data.data.Authorization);*/
+            // var Authorization = data.data.Authorization;
+            var Authorization = "";
+            try{
+                Authorization =  data.data.Authorization;
+            }catch(e){
+                // toaster.pop("error","错误","addResponseInterceptor,此层级data.data.Authorization无数据");
+            }
             if (data.successResponse == false) {
                 // modal.error(data.message);
                 toaster.pop('error','操作失败：',data.message,10000000000);
                 return deferred.reject();
             } else {
-                if(data.Authorization != '' && data.Authorization!=null && data.Authorization != undefined){
-                    console.log("设置Authorization333333333333333333333333333333333333");
-
-                    // CookieService.setCookie("Authorization",data.Authorization);
-                    // CookieService.setCookie("token",data.Authorization);
-                    console.log(CookieService.getCookie("Authorization"));
+                if(Authorization != '' && Authorization !=null && Authorization != undefined){
+                    // CookieService.setCookie("Authorization",Authorization);
+                    // CookieService.setCookie("token",Authorization);
+                    // console.log(CookieService.getCookie("Authorization"));
                 }
 
                 if (operation == 'getList') {
@@ -146,7 +158,7 @@ app.factory('PujjrPushRestangular',function(Restangular){
 
 
 app.run(['$rootScope',function($rootScope){
-    console.log("run***********************");
+    // console.log("run***********************");
     /**
      * 状态改变监听
      */
@@ -155,8 +167,8 @@ app.run(['$rootScope',function($rootScope){
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
         $rootScope.currentState = to.name;
-        console.log('Previous state:'+$rootScope.previousState);
-        console.log('Current state:'+$rootScope.currentState);
+        // console.log('Previous state:'+$rootScope.previousState);
+        // console.log('Current state:'+$rootScope.currentState);
     });
 }]);
 
@@ -168,6 +180,51 @@ app.config(['WebsocketServiceProvider',function(WebsocketServiceProvider){
 app.config(['MessagePushServiceProvider',function(MessagePushServiceProvider){
     MessagePushServiceProvider.setWebSocketUrl(SERVER_URL.PJ_PUSH_URI);
 }]);
+
+app.factory('myInterceptor',function($q,CookieService,$state,$rootScope){
+    var interceptor = {
+        'request':function(config){
+            //console.log("request");
+            //console.log(config);
+
+            /**
+             * 发送请求时，请求消息头headers是json对象
+             */
+            config.headers['token'] =CookieService.getCookie('token');
+            config.headers['Authorization'] =CookieService.getCookie('Authorization');
+            config.headers['expireTime'] =CookieService.getCookie('expireTime');
+            return config;
+        },
+        'response':function(config){
+            //console.log('response');
+            /*console.log(config);
+            console.log(config.headers['token']);
+            console.log(config.headers("token"));*/
+            /**
+             *接收请求时，接收消息头headers是函数
+             */
+            if(config.status == '200'){
+
+            }else{
+
+            }
+            var token = config.headers('token')+'';
+            var expireTime = config.headers('expireTime')+'';
+            //console.log('token:'+token);
+            //console.log('expireTime:'+expireTime);
+            //console.log(token == 'null');
+            if(token != null && token != undefined && token != '' && token != 'null'){
+                // CookieService.setCookie('token',token);
+            }
+            if(expireTime != null && expireTime != undefined && expireTime != '' && token != 'null'){
+                // CookieService.setCookie('expireTime',expireTime);
+            }
+            return config;
+        }
+    };
+    return interceptor;
+
+});
 
 
 

@@ -25,8 +25,9 @@ var publishShowApp = angular.module('publishShowApp',[
     'ngWebSocket',
     'restangular',
     'cgBusy',
-    'com.app.publish',
-    'com.tlms.sys.service'
+    'com.tlms.sys.service',
+    'com.tlms.sys.controller',
+    'com.app.publish'
 
 ]);
 publishShowApp.config(function($httpProvider) {
@@ -43,15 +44,18 @@ publishShowApp.config(['$locationProvider',function($locationProvider){
 }]);
 
 
-publishShowApp.factory('TlmsRestangular',function(Restangular, $state, $rootScope,$uibModal,toaster){
+publishShowApp.factory('TlmsRestangular2',function(Restangular, $state, $rootScope,$uibModal,toaster,CookieService){
     return Restangular.withConfig(function(configurer){
         configurer.setBaseUrl(TLMS_URL);
         configurer.setFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
+            if(CookieService.getCookie('Authorization') == null || CookieService.getCookie('Authorization') == '' || CookieService.getCookie('Authorization')==undefined){
+                $state.go('signin');
+            }
             var page = {};
             if (operation == 'getList') {
                 page.pageSize = params.pageSize || $rootScope.paginationInfo.pageSize;
                 page.curPage = params.curPage || $rootScope.paginationInfo.curPage;
-            };
+            }
             angular.extend($rootScope.vm,page);
             angular.extend($rootScope.vm, params);
             var newHeaders = {
@@ -109,10 +113,12 @@ publishShowApp.factory('myInterceptor',function($q,CookieService,$state,$rootSco
         'request':function(config){
             //console.log("request");
             //console.log(config);
+
             /**
              * 发送请求时，请求消息头headers是json对象
              */
             config.headers['token'] =CookieService.getCookie('token');
+            config.headers['Authorization'] =CookieService.getCookie('Authorization');
             config.headers['expireTime'] =CookieService.getCookie('expireTime');
             return config;
         },
@@ -135,10 +141,10 @@ publishShowApp.factory('myInterceptor',function($q,CookieService,$state,$rootSco
             //console.log('expireTime:'+expireTime);
             //console.log(token == 'null');
             if(token != null && token != undefined && token != '' && token != 'null'){
-                CookieService.setCookie('token',token);
+                // CookieService.setCookie('token',token);
             }
             if(expireTime != null && expireTime != undefined && expireTime != '' && token != 'null'){
-                CookieService.setCookie('expireTime',expireTime);
+                // CookieService.setCookie('expireTime',expireTime);
             }
             return config;
         }

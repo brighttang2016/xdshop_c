@@ -10,7 +10,7 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 
 // The trick to keep the editor in the sample quite small
 // unless user specified own height.
-CKEDITOR.config.height = 150;
+CKEDITOR.config.height = 350;
 CKEDITOR.config.width = 'auto';
 
 var initSample = ( function() {
@@ -19,11 +19,14 @@ var initSample = ( function() {
 
 	return function() {
 		var editorElement = CKEDITOR.document.getById( 'editor' );
-
+editorElement.setHtml(
+				'<div style="border:1px solid red">66666666666666</div>\n\n' +
+				'I\'m an instance of [url=https://ckeditor.com]CKEditor[/url].'
+			);
 		// :(((
 		if ( isBBCodeBuiltIn ) {
-			editorElement.setHtml(
-				'Hello world!\n\n' +
+			editorElement.setData(
+				'<div style="border:1px solid red">66666666666666</div>\n\n' +
 				'I\'m an instance of [url=https://ckeditor.com]CKEditor[/url].'
 			);
 		}

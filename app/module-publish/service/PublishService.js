@@ -4,18 +4,30 @@
 
 angular.module('com.app.publish.service')
     .service('PublishService',function(TlmsRestangular) {
-        this.getPublishList = function () {
-            console.log("getPublishList");
-            return TlmsRestangular.all("/service/publish/list").getList();
+
+        this.initPublish = function(){
+            return TlmsRestangular.one("/service/publish/init").get();
         };
 
-        this.addPublish = function (publish) {
-            console.log(publish);
+        this.getPublishList = function () {
+            // console.log("getPublishList");
+            return TlmsRestangular.all("/service/publish/list").getList();
+        };
+        this.getPublish = function (id) {
+            return TlmsRestangular.one("/service/publish").one(id).get();
+        };
+
+        this.savePublish = function (publish) {
+            // console.log(publish);
             return TlmsRestangular.all("/service/publish/save").post(publish);
         };
 
         this.commitUserInfo = function (publish) {
             return TlmsRestangular.all("/service/publish/list").getList();
+        };
+
+        this.queryPublishResource = function(typeCode,publishId){
+            return TlmsRestangular.one("/service/publishResource").one(typeCode).one(publishId).get();
         };
 
         /*return {

@@ -1,17 +1,18 @@
-<div ng-init="initPublishAdd()">
+<div ng-init="initPublishEdit()">
     <div class="panel_main">
         <div class="data-table-container" >
             <header class="data-table-header">
                 <div class="data-table-header__label">
-                    <span class="fs-title"><i class="fa fa-globe mr"></i>新增发布({{publish.id}})</span>
+                    <span class="fs-title"><i class="fa fa-globe mr"></i>编辑发布({{publish.id}})</span>
                 </div>
                 <div class="data-table-header__actions">
+                    <button class="btn btn-sm btn-default" type="button" ng-click="preViewPublish()"><i class="fa fa-plus m-r-sm"></i>预览</button>
                     <button class="btn btn-sm btn-default" type="button" ng-click="back()"><i class="fa fa-plus m-r-sm"></i>返回</button>
                 </div>
             </header>
         </div>
 
-        <div class="form-horizontal">
+        <div class="form-horizontal" cg-busy="{promise:loading,message:'正在查询，请稍后...'}">
             <div>&nbsp;</div>
             <ng-form  name="form">
                 <fieldset class="scheduler-border">
@@ -53,7 +54,7 @@
                     <div class="row" style="border:0px solid red">
                         <input  id="currItem" type="text" class="form-control publishshow-hidden"  ng-model="currItem.url"/>
                         <div class="col-sm-3 col-md-3" style="border:0px solid red; " ng-repeat="item in publishResourceList" align="center">
-                            <a href="javascript:0" class="thumbnail" style="border:2px solid #AFADAD;margin-top:5px;margin-bottom:5px">
+                            <a href="javascript:0" class="thumbnail" style="border:1px solid #AFADAD;margin-top:5px;margin-bottom:5px">
                                 <img style="height:250px" src="{{item.url}}"
                                      alt="景区资源文件">
                             </a>
@@ -67,7 +68,7 @@
                     <div class="form-group form-group-sm">
                         <div class="col-sm-12">
                             <form>
-                                <textarea style="height:300px" ng-model="publish.publishRule" name="publishRule" id="publishRule" rows="20" cols="80">
+                                <textarea style="height:300px" ng-mode="publish.publishRule" name="publishRule" id="publishRule" rows="20" cols="80">
                                     请在此处编辑活动规则网页内容...
                                 </textarea>
                                 <script>
@@ -83,10 +84,10 @@
                     <div class="form-group form-group-sm">
                         <div class="col-sm-12">
                             <form>
-                                <textarea style="height:300px" ng-model="publish.scenicDesc" name="scenicDesc" id="scenicDesc" rows="10" cols="80">
+                                <textarea style="height:300px" ng-mode="publish.scenicDesc" name="scenicDesc" id="scenicDesc" rows="10" cols="80">
                                     请在此处编辑景区介绍网页内容...
                                 </textarea>
-                                <script>
+                                 <script>
                                     CKEDITOR.replace( 'scenicDesc' );
                                 </script>
                             </form>
