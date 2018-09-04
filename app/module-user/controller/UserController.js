@@ -12,7 +12,11 @@ angular.module('com.app.user.controller')
         }else{
             //StorageService.clearStorage();
         }*/
-        //$rootScope.user = CookieService.getCookie('user');
+       $scope.initHeader = function(){
+           $rootScope.user = CookieService.getCookie('user');
+       };
+
+
         $scope.signIn = function(){
             console.log($scope.user);
             TlmsRestangular.all('auth').post($scope.user)
@@ -32,9 +36,10 @@ angular.module('com.app.user.controller')
                     // var userId = $scope.user.userId + '';
 
                     $rootScope.user.userId =response.data.account.accountId;
-                    $rootScope.user.name = "test";
-                    console.log($rootScope);
-                    console.log(response.data.account.accountId);
+                    CookieService.setCookie('user',$rootScope.user);
+                    // $rootScope.user.name = "test";
+                    // console.log($rootScope);
+                    // console.log(response.data.account.accountId);
                     // $rootScope.user.userId = userId;
                     // console.log($rootScope);
                     $state.go('app');

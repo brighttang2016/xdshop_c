@@ -43,7 +43,8 @@ var app = angular.module('myApp',[
     'com.app.block',
     'com.app.uibootstrap',
     'com.app.websocket',
-    'com.app.publish'
+    'com.app.publish',
+    'com.app.customer'
 
 ]);
 app.config(function($httpProvider) {

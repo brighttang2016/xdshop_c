@@ -1,0 +1,106 @@
+<div  ng-init="getPublishList()">
+    <div class="panel_main">
+        <div class="data-table-container" >
+            <header class="data-table-header">
+                <div class="data-table-header__label">
+                    <span class="fs-title"><i class="fa fa-globe mr"></i>顾客管理</span>
+                </div>
+               <!-- <div class="data-table-header__actions">
+                    <button class="btn btn-sm btn-default" type="button" ng-click="jumToAdd()"><i class="fa fa-plus m-r-sm"></i>新增发布</button>
+                </div>-->
+            </header>
+        </div>
+        <div class="form-horizontal">
+            <div>&nbsp;</div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">姓名：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"  ng-model="vm.name" placeholder="姓名">
+                </div>
+                <label class="col-sm-1 control-label">手机号：</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control"  ng-model="vm.mobile" placeholder="手机号">
+                </div>
+                <div class="col-sm-1 text-right">
+                    <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="getPublishList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="data-table-container">
+            <div class="data-table-header">
+                <div class="data-table-header__label">
+                    <div class="row m-t-sm">
+                        <div class="col-sm-2 text-left">
+                            <i class="fa fa-list m-r-sm"></i>活动参与列表：
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="data-table table table-bordered" cg-busy="{promise:loading,message:'正在查询，请稍后...'}">
+                <thead >
+                <tr>
+                    <th  style="width: 20%">活动标题</th>
+                    <th>助力人数</th>
+                    <th>顾客姓名</th>
+                    <th>顾客昵称</th>
+                    <th>顾客手机号</th>
+                    <th>顾客助力人数</th>
+                    <th>领取状态</th>
+                    <th width="200px">操作</th>
+                </tr>
+                <tbody>
+                </thead>
+                <tr ng-repeat="item in publishUserList">
+                    <td  style="width: 20%">{{item.title}}</td>
+                    <td>{{item.subUserNum}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.nickName}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td>{{item.subUserNumAct}}</td>
+                    <td>{{item.fetchStatus == true ? "已领取":"未领取"}}</td>
+                    <td width="200px">
+                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="fetch(item)"><i class="fa fa-edit m-r-sm"></i>领取</button>
+                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="unfetch(item)"><i class="fa fa-edit m-r-sm"></i>取消</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="has-divider has-divider--dark"></div>
+            <div class="toolbar">
+                <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+                </div>
+                <span class="toolbar__label fs-title">
+
+                </span>
+
+                <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+                    <div class="mr+++">
+                    <span>
+                        总共{{paginationInfo.totalItem}}条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每页显示：{{paginationInfo.pageSize}}条
+                    </span>
+                    </div>
+                    <div>
+                       <!-- <uib-pagination boundary-links="true" total-items="paginationInfo.totalItem"
+                                        ng-model="paginationInfo.curPage"
+                                        max-size="paginationInfo.maxSize"
+                                        items-per-page="paginationInfo.pageSize" ng-change="queryChargeLog()"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                                        last-text="&raquo;">
+                        </uib-pagination>-->
+                        <ul uib-pagination total-items="paginationInfo.totalItem" ng-model="paginationInfo.curPage" max-size="paginationInfo.maxSize" class="pagination-sm" boundary-links="true" force-ellipses="true"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+                            last-text="&raquo;"
+                            ng-change="getPublishList()"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

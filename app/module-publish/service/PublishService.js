@@ -30,6 +30,18 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.one("/service/publishResource").one(typeCode).one(publishId).get();
         };
 
+        this.getSubUserList = function(openId){
+            return TlmsRestangular.all("/service/subuser/").all(openId).getList();
+        };
+        this.getFetchUserList = function(publishId){
+            return TlmsRestangular.all("/service/fetchuser/").all(publishId).getList();
+        };
+
+        this.getPosterOssUrl = function(publishId,openId){
+            return TlmsRestangular.one("/service/usershare/").one(publishId).one(openId).get();
+        };
+
+
         /*return {
             "getPublishList":getPublishList,
             "addPublish":addPublish

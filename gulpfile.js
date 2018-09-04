@@ -38,6 +38,7 @@ gulp.task('minifyjs',function(){
     //gulp.src('asset/**/*.js')
     //gulp.src(['app/**/*.js','asset/**/*.js'])
     gulp.src(['app/*.js'
+        ,'!app/appConfig.js'
         //,'asset/js/**/*.js'
         ,'asset/js/**/loader-static-files.js'
         ,'asset/js/**/storage-cookie.js'
@@ -156,8 +157,12 @@ gulp.task('copyeditor',function(){
         .pipe(gulp.dest('dist/ckeditor'));
 });
 
+gulp.task('copyAppConfig',function(){
+    gulp.src(['app/appConfig.js'])
+        .pipe(gulp.dest('dist/js'));
+});
 
 gulp.task('default',function(cb){
-    runSequence('clean','minifycss','templatecache',['minifyjs','copy'],'appAllHtml','copyeditor');
+    runSequence('clean','minifycss','templatecache',['minifyjs','copy'],'appAllHtml','copyeditor','copyAppConfig');
     //runSequence('clean','copyeditor');
 });

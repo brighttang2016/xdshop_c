@@ -145,6 +145,26 @@ angular.module('com.app.publish.controller')
                 DomService.appendRichText('publishRule',$scope.publish.publishRule);
                 DomService.appendRichText('scenicDesc',$scope.publish.scenicDesc);
             });
+
+            //获取我的助力好友
+            PublishService.getSubUserList($stateParams.openId).then(function(response){
+                $scope.subUserList = response;
+                for(var i = 0;i < $scope.subUserList.length;i++){
+                    var tempSubUser = $scope.subUserList[i];
+                    var tempMobile = tempSubUser.mobile;
+                    $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                }
+            });
+            //已领取免费门票顾客
+            PublishService.getFetchUserList($stateParams.publishId).then(function(response){
+                $scope.fetchUserList = response;
+                for(var i = 0;i < $scope.fetchUserList.length;i++){
+                    var tempFetchUser = $scope.fetchUserList[i];
+                    var tempMobile = tempFetchUser.mobile;
+                    $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                }
+            });
+
         };
 
         //初始化发布列表

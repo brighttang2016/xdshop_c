@@ -11,7 +11,20 @@ angular.module('com.app.publish.controller')
     //
     $scope.initPublishImageModal = function(){
         $scope.userInfo = {};
-        $scope.showUserInfo();
+        // $scope.showUserInfo();
+        /**
+         * 判断是否已生成分享海报
+         * 如果已生成：直接显示对应图片
+         * 如果未生成，录入姓名、手机号
+         */
+        PublishService.getPosterOssUrl($scope.item.publishId,$scope.item.openId).then(function(response){
+            if(response.data == ''){
+            }else{
+                $scope.sharePicUrl = response.data;
+                $scope.showSharePic();
+            }
+        });
+
     };
     $scope.addOk = function () {
         $uibModalInstance.close($scope.currGpsLinkman);
