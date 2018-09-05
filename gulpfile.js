@@ -52,14 +52,14 @@ gulp.task('minifyjs',function(){
         ,'dist/js/template/templates.js'])
         .pipe(concat('all.js'))
         .pipe(rename({suffix:'.min'}))
-        /*.pipe(uglify({
+        .pipe(uglify({
             //mangle:{regex:'tang'}
             //mangle:true
             //mangle:{except:['require' ,'exports' ,'module','$scope','$http','$q','xhrService']},
             mangle:false,
             compress:true
             //preserveComments: all//
-        }))*/
+        }))
         //.pipe(bom())
         .pipe(gulp.dest('dist/js'));
 });
