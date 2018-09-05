@@ -12,6 +12,14 @@ angular.module('com.app.user.controller')
         }else{
             //StorageService.clearStorage();
         }*/
+        $scope.enterEvent = function(e) {
+            console.log(e);
+            var keycode = window.event?e.keyCode:e.which;
+            if(keycode==13){
+                $scope.signIn();
+            }
+        };
+
        $scope.initHeader = function(){
            $rootScope.user = CookieService.getCookie('user');
        };

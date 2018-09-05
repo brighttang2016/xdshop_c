@@ -11,7 +11,7 @@ angular.module('myApp')
 
             // config
             $scope.app = {
-                name: '助理后台',
+                name: '助力后台',
                 version: '1.3.3',
                 // for chart colors
                 color: {

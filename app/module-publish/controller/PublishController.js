@@ -98,9 +98,10 @@ angular.module('com.app.publish.controller')
             }else{
                 item.openFlag = true;
             }
-            PublishService.savePublish(item).then(function(response){
+            PublishService.openPublish(item).then(function(response){
                 if(response.successResponse == true){
                     toaster.pop('success', '操作提醒', '操作成功');
+                    $scope.initPublishList();
                 }else{
                     toaster.pop('error', '操作提醒', '操作失败');
                 }
@@ -144,6 +145,12 @@ angular.module('com.app.publish.controller')
                 }
                 DomService.appendRichText('publishRule',$scope.publish.publishRule);
                 DomService.appendRichText('scenicDesc',$scope.publish.scenicDesc);
+
+                if($scope.publish.openFlag){
+                    $scope.btnName = "参与免单";
+                }else{
+                    $scope.btnName = "活动已结束";
+                }
             });
 
             //获取我的助力好友
@@ -214,6 +221,9 @@ angular.module('com.app.publish.controller')
 
         //获取分享图片给好友
         $scope.publishShare = function(){
+            if(!$scope.publish.openFlag){
+                return;
+            }
             var item = {};
             item.openId = $stateParams.openId;
             item.publishId = $stateParams.publishId;

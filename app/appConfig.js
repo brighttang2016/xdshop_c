@@ -1,8 +1,8 @@
 /**
  * Created by pujjr on 2017/7/18.
  */
-var BASE_URL='http://192.168.1.103:9090/xdshop';
-var TLMS_URL='http://192.168.1.103:9090/xdshop';
+var BASE_URL='http://192.168.43.106:9090/xdshop';
+var TLMS_URL='http://192.168.43.106:9090/xdshop';
 
 // var BASE_URL='http://65b6c8eb.ngrok.io/xdshop';
 // var TLMS_URL='http://65b6c8eb.ngrok.io/xdshop';
