@@ -6,6 +6,8 @@ angular.module('com.app.publish.controller')
     .controller('PublishResourceUploadController',function(item,toaster,$scope,$state,$uibModal,$uibModalInstance,FileUploader,$rootScope,$timeout){
         // console.log("文件上传5555555555555555555555");
         // console.log(item);
+        //上传成功数
+        $scope.successUploadCnt = 0;
         if(item.publishId == undefined){
             item.publishId = "";
         }
@@ -28,6 +30,8 @@ angular.module('com.app.publish.controller')
         };
 
         $scope.doUpload = function(currFile){
+            console.log("文件上传：");
+            console.log(currFile);
             currFile.upload();
         };
 
@@ -36,11 +40,15 @@ angular.module('com.app.publish.controller')
                 $scope.setUploadResultMsg("上传失败："+response.message);
                 $scope.msgIconClass = "fa  fa-exclamation text-danger";
             }else{
-                $scope.setUploadResultMsg("上传成功");
-                $scope.msgIconClass = "fa fa-check text-success";
-                // console.log($scope.uploader.queue.length);
+                $scope.successUploadCnt = $scope.successUploadCnt + 1;
             }
-            $scope.isDisabledOkBtn = false;
+            if( $scope.successUploadCnt == $scope.uploader.queue.length){
+                $scope.setUploadResultMsg("所有文件数据处理成功");
+                $scope.msgIconClass = "fa fa-check text-success";
+                $scope.isDisabledOkBtn = false;
+                //关闭上传图片弹窗
+                $scope.addClose();
+            }
         };
 
         $scope.uploader.onErrorItem = function(item, response, status, headers){
@@ -53,7 +61,7 @@ angular.module('com.app.publish.controller')
         };
 
         $scope.uploader.onAfterAddingAll = function(){
-
+            console.log("********onAfterAddingAll*****************");
         };
 
         $scope.uploader.onAfterAddingFile = function(fileItem){

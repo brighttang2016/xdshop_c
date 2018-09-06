@@ -1,0 +1,39 @@
+<div ng-init="initFirstShare()">
+
+
+    <!--分享图片部分-->
+    <div cg-busy="{promise:loading,message:'正在获取分享图片，请稍后...'}">
+        <!--<div class="modal-header">
+        <h4 class="modal-title" id="modal-title"><i class="fa fa-user fa-sm"></i>长按下图保存图片，分享给好友助力</h4>
+    </div>-->
+        <div  align="center" style="border:0px solid red;margin-bottom:2px">
+            下图用图片消息形式，推送给所有已关注微信用户
+            <!--<h5 style="border:1px solid red">
+                <strong>长按下图保存图片，分享给好友助力</strong>
+            </h5>-->
+        </div>
+
+        <div class="modal-body" style="border:0px solid red;padding:0px 0px" >
+            <!-- <div class="container">
+                 <div class="row">
+                     <div class="col-xm-12 text-center" align="center" style="border:1px solid red">
+                         <h5 style="border:1px solid red">
+                             <strong>长按下图保存图片，分享给好友助力</strong>
+                         </h5>
+                 </div>
+                 </div>
+             </div>-->
+            <div  style="border:0px solid red;" align="center">
+                <img style="width:80%" src="{{sharePicUrl}}" alt="...">
+            </div>
+        </div>
+
+        <!--<div class="modal-footer" align="center" style="border:0px solid red">
+            <button class="btn btn-primary" type="button" ng-click="addOk()">关闭</button>
+        </div>-->
+        <div  align="center" style="border:0px solid red;margin-bottom:0px">
+            <button class="btn btn-default btn-sm m-b-sm m-r-xs" type="button" ng-click="addOk()">关闭</button>
+        </div>
+    </div>
+
+</div>

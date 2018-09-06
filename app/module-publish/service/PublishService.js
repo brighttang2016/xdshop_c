@@ -46,6 +46,11 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.one("/service/usershare/").one(publishId).one(openId).get();
         };
 
+        this.generalFirstSharePic = function(publishId){
+            console.log(publishId);
+            return TlmsRestangular.one("/service/publish/generalFirstSharePic").one(publishId).get();
+        };
+
 
         /*return {
             "getPublishList":getPublishList,

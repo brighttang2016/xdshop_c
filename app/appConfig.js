@@ -1,9 +1,10 @@
 /**
  * Created by pujjr on 2017/7/18.
  */
-var BASE_URL='http://192.168.43.106:9090/xdshop';
-var TLMS_URL='http://192.168.43.106:9090/xdshop';
-
+var BASE_URL='http://localhost:9090/xdshop';
+var TLMS_URL='http://localhost:9090/xdshop';
+var PUBLISH_SHOW_BASE_URL="http://localhost:9020/xdshop_c/dist/index_publish.html?#/publishshow/";
+http://zli.bnxly.top/client/zl_client
 // var BASE_URL='http://65b6c8eb.ngrok.io/xdshop';
 // var TLMS_URL='http://65b6c8eb.ngrok.io/xdshop';
 //前端发起模拟推送地址

@@ -307,8 +307,36 @@ angular.module('com.app.publish.controller')
             stateParams.Authorization = CookieService.getCookie("Authorization");
             // $state.transitionTo('publishshow',stateParams);
             //本机预览测试
-            var publishShowUrl = "http://localhost:9020/xdshop_c/dist/index_publish.html?_ijt=ojcbtgbgkgtu5q1ln6mstttpnv#/publishshow/oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/"+publishId;
+            var publishShowUrl = PUBLISH_SHOW_BASE_URL+"oXmQ_1ddd8Yq4C_oAhq_OiMG181c/eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjoiYWRtaW4iLCJpYXQiOjE1MzU4MTcxNTF9.hmszfiLDY8MZKbjYtJ_clhYlVRp75Ovt0q48wQGpsXI/"+publishId;
             window.open(publishShowUrl);
         };
+
+        //获取首次推送消息
+        $scope.generalFirstSharePic = function(item){
+            console.log(item);
+            var modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'app/module-publish/tpl/publish-image-modal-firstshare.html',
+                controller: 'PublishImageModalFirstShareController',
+                backdrop:'static',
+                resolve: {
+                    item: function () {
+                        return item;
+                    }
+                }
+            });
+            modalInstance.result.then(function (result) {
+                // PublishService.queryPublishResource(result.typeCode,result.publishId).then(function(response){
+                //     // console.log(response);
+                //     $scope.publishResourceList = response.data;
+                // });
+            }, function (result) {
+                // console.log("取消");
+            });
+        };
+
+
 
     }]);
