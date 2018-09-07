@@ -27,6 +27,7 @@ angular.module('com.app.publish.controller')
                 console.log(response);
                 $scope.publish = response.data;
                 try{
+                    //门票兑换凭证中，显示活动开始、结束时间
                     $scope.publish.timeBegin = UtilsService.dateFormat(new Date($scope.publish.timeBegin),'yyyy-MM-dd');
                     $scope.publish.timeEnd = UtilsService.dateFormat(new Date($scope.publish.timeEnd),'yyyy-MM-dd');
                 }catch(e){
@@ -37,7 +38,6 @@ angular.module('com.app.publish.controller')
              * 查询user信息
              */
             PublishService.getUserInfo(item.openId).then(function(response){
-                console.log(response);
                 $scope.user = response.data;
             });
             return;

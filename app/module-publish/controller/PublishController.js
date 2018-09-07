@@ -108,7 +108,9 @@ angular.module('com.app.publish.controller')
             });
         };
 
-        //初始化发布展示页内容
+        /**
+         * 初始化发布展示页内容开始
+         */
         $scope.initPublishShow = function(){
             //当前客户是否已完成助力：true：已完成，false:未完成
             $scope.isFinish  = false;
@@ -120,7 +122,7 @@ angular.module('com.app.publish.controller')
             $scope.isPreview = CookieService.getCookie("isPreview");
             CookieService.setCookie('Authorization',Authorization);
             /**
-             * 获取发布信息
+             * 获取发布信息开始
              */
             PublishService.getPublish(publishId).then(function(response){
                 $scope.publish = response.data;
@@ -159,19 +161,33 @@ angular.module('com.app.publish.controller')
                 }
 
 
-                //获取我的助力好友
+                /**
+                 *  获取我的助力好友开始
+                 */
                 PublishService.getSubUserList($stateParams.openId).then(function(response){
+                    // console.log("1111111111111");
+                    // console.log(response);
                     $scope.subUserList = response;
                     for(var i = 0;i < $scope.subUserList.length;i++){
                         var tempSubUser = $scope.subUserList[i];
+                        // console.log("tempSubUser:");
+                        // console.log(tempSubUser);
+                        // console.log(tempSubUser.mobile);
+                        // console.log(tempSubUser.nickName);
                         var tempMobile = tempSubUser.mobile;
+                        var tempNickName = tempSubUser.nickName;
                         try{
                             $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
                         }catch(e){
                         }
+                        try{
+                            $scope.subUserList[i].nickName =  tempNickName.substring(0,1)+"******";
+                        }catch(e){
+                        }
+
                     }
-                    console.log($scope.publish);
-                    console.log($scope.subUserList);
+                    // console.log($scope.publish);
+                    // console.log($scope.subUserList);
                     if($scope.subUserList.length >= $scope.publish.subUserNum){
                         /*
                         * 完成任务
@@ -179,21 +195,53 @@ angular.module('com.app.publish.controller')
                         $scope.btnName = "已完成任务,点击领取";
                         $scope.isFinish = true;
                     }
+
+
+                    /**
+                     * 已领取免费门票顾客开始
+                     */
+                    PublishService.getFetchUserList($stateParams.publishId).then(function(response){
+                        $scope.fetchUserList = response;
+                        for(var i = 0;i < $scope.fetchUserList.length;i++){
+                            var tempFetchUser = $scope.fetchUserList[i];
+                            var tempMobile = tempFetchUser.mobile;
+                            var tempNickName = tempFetchUser.nickName;
+                            try{
+                                $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                            }catch(e){
+                            }
+                            try{
+                                $scope.fetchUserList[i].nickName =  tempNickName.substring(0,1)+"******";
+                            }catch(e){
+                            }
+                            /**
+                             * 当前openId已领取门票
+                             */
+                            if($stateParams.openId == tempFetchUser.openId){
+                                $scope.isFetchTicket = true;
+                            }else{
+                                $scope.isFetchTicket = false;
+                            }
+                        }
+                        if($scope.isFetchTicket){
+                            $scope.btnName = "查看我的订单";
+                        }
+                    });
+                    /**
+                     * 已领取免费门票顾客结束
+                     */
+
                 });
-            });
-
-
-            //已领取免费门票顾客
-            PublishService.getFetchUserList($stateParams.publishId).then(function(response){
-                $scope.fetchUserList = response;
-                for(var i = 0;i < $scope.fetchUserList.length;i++){
-                    var tempFetchUser = $scope.fetchUserList[i];
-                    var tempMobile = tempFetchUser.mobile;
-                    $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
-                }
+                /**
+                 *  获取我的助力好友结束
+                 */
             });
 
         };
+        /**
+         * 初始化发布展示页内容开始
+         */
+
 
         //初始化发布列表
         $scope.initPublishList = function(){
@@ -255,6 +303,8 @@ angular.module('com.app.publish.controller')
             //活动设定助力人数
             item.isFinish =  $scope.isFinish;
             item.publish = $scope.publish;
+            //true：已领取，false：未领取
+            item.isFetchTicket =  $scope.isFetchTicket;
             var modalInstance = $uibModal.open({
                 animation: false,
                 ariaLabelledBy: 'modal-title',

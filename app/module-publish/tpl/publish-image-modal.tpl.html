@@ -5,7 +5,7 @@
     <div cg-busy="{promise:loading,message:'正在获取分享图片，请稍后...'}" ng-show="isShowUserInfo">
         <div class="form-horizontal">
             <div>&nbsp;</div>
-            <ng-form  name="form">
+            <ng-form  name="userInfoForm">
                 <div class="form-group form-group-sm">
                     <label class="col-xs-4 control-label text-right">姓名：</label>
                     <div class="col-xs-6">
@@ -22,7 +22,7 @@
             <div class="form-group form-group-sm" style="border:0px solid red;">
                 <div class="col-xs-4"></div>
                 <div class="col-xs-4" align="left" style="border:0px solid red;">
-                    <button ng-disabled="form.$invalid" type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="commitUserInfo()"  click-and-disable>获取分享图片</button>
+                    <button ng-disabled="userInfoForm.$invalid" type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="commitUserInfo()"  click-and-disable>获取分享图片</button>
                 </div>
                 <div class="col-xs-2"  align="right" style="border:0px solid red;">
                     <button class="btn btn-default btn-sm m-b-sm m-r-xs" type="button" ng-click="addOk()">关闭</button>
