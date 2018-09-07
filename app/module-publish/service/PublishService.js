@@ -51,6 +51,11 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.one("/service/publish/generalFirstSharePic").one(publishId).get();
         };
 
+        //获取对应user信息
+        this.getUserInfo = function(openId){
+            return TlmsRestangular.one("/service/user/").one(openId).get();
+        };
+
 
         /*return {
             "getPublishList":getPublishList,

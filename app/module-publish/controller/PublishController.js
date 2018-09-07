@@ -2,10 +2,10 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.publish.controller')
-    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout','ArticleService','DomService',
-        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout,ArticleService,DomService){
+    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout','ArticleService','DomService','UtilsService',
+        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout,ArticleService,DomService,UtilsService){
         // console.log("11111111111111111111111");
-        // console.log($stateParams);
+        console.log($stateParams);
        /* CKEDITOR.replace( 'scenicDesc' );
         CKEDITOR.replace( 'publishRule');*/
         $scope.publish = {};
@@ -110,6 +110,8 @@ angular.module('com.app.publish.controller')
 
         //初始化发布展示页内容
         $scope.initPublishShow = function(){
+            //当前客户是否已完成助力：true：已完成，false:未完成
+            $scope.isFinish  = false;
             //获取参数
             var openId = $stateParams.openId;
             var Authorization = $stateParams.Authorization;
@@ -150,18 +152,37 @@ angular.module('com.app.publish.controller')
                     $scope.btnName = "参与免单";
                 }else{
                     $scope.btnName = "活动已结束";
+                    /**
+                     * 活动结束，不在走后续流程
+                     */
+                    return;
                 }
+
+
+                //获取我的助力好友
+                PublishService.getSubUserList($stateParams.openId).then(function(response){
+                    $scope.subUserList = response;
+                    for(var i = 0;i < $scope.subUserList.length;i++){
+                        var tempSubUser = $scope.subUserList[i];
+                        var tempMobile = tempSubUser.mobile;
+                        try{
+                            $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                        }catch(e){
+                        }
+                    }
+                    console.log($scope.publish);
+                    console.log($scope.subUserList);
+                    if($scope.subUserList.length >= $scope.publish.subUserNum){
+                        /*
+                        * 完成任务
+                        * */
+                        $scope.btnName = "已完成任务,点击领取";
+                        $scope.isFinish = true;
+                    }
+                });
             });
 
-            //获取我的助力好友
-            PublishService.getSubUserList($stateParams.openId).then(function(response){
-                $scope.subUserList = response;
-                for(var i = 0;i < $scope.subUserList.length;i++){
-                    var tempSubUser = $scope.subUserList[i];
-                    var tempMobile = tempSubUser.mobile;
-                    $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
-                }
-            });
+
             //已领取免费门票顾客
             PublishService.getFetchUserList($stateParams.publishId).then(function(response){
                 $scope.fetchUserList = response;
@@ -179,6 +200,10 @@ angular.module('com.app.publish.controller')
             $rootScope.resetPage();
             $scope.loading = PublishService.getPublishList().then(function(response){
                 $scope.publishList = response;
+                for(var i = 0;i <  $scope.publishList.length;i++){
+                    $scope.publishList[i].timeBegin = UtilsService.dateFormat(new Date($scope.publishList[i].timeBegin),'yyyy-MM-dd');
+                    $scope.publishList[i].timeEnd = UtilsService.dateFormat(new Date($scope.publishList[i].timeEnd),'yyyy-MM-dd');
+                }
             });
         };
 
@@ -227,6 +252,9 @@ angular.module('com.app.publish.controller')
             var item = {};
             item.openId = $stateParams.openId;
             item.publishId = $stateParams.publishId;
+            //活动设定助力人数
+            item.isFinish =  $scope.isFinish;
+            item.publish = $scope.publish;
             var modalInstance = $uibModal.open({
                 animation: false,
                 ariaLabelledBy: 'modal-title',
