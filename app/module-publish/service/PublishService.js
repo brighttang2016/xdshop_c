@@ -35,8 +35,8 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.one("/service/publishResource").one(typeCode).one(publishId).get();
         };
 
-        this.getSubUserList = function(openId){
-            return TlmsRestangular.all("/service/subuser/").all(openId).getList();
+        this.getSubUserList = function(publishId,openId){
+            return TlmsRestangular.all("/service/subuser/").all(publishId).all(openId).getList();
         };
          this.getFetchUserList= function(publishId){
             return TlmsRestangular.all("/service/fetchuser/").all(publishId).getList();

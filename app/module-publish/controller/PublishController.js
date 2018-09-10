@@ -164,7 +164,7 @@ angular.module('com.app.publish.controller')
                 /**
                  *  获取我的助力好友开始
                  */
-                PublishService.getSubUserList($stateParams.openId).then(function(response){
+                PublishService.getSubUserList($stateParams.publishId,$stateParams.openId).then(function(response){
                     // console.log("1111111111111");
                     // console.log(response);
                     $scope.subUserList = response;
