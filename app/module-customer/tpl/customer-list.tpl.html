@@ -21,6 +21,16 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control"  ng-model="vm.mobile" placeholder="手机号">
                 </div>
+
+                <label class="col-sm-1 control-label">完成状态：</label>
+                <div class="col-sm-2">
+                    <select ng-model="vm.finishType" class="form-control">
+                        <option value="">请选择完成状态</option>
+                        <option value="01">已完成</option>
+                        <option value="02">未完成</option>
+                    </select>
+                </div>
+
                 <div class="col-sm-1 text-right">
                     <button type="submit" class="btn btn-default btn-sm m-b-sm m-r-xs" ng-click="getPublishList()"><i class="fa fa-search" aria-hidden="true"></i>查询</button>
                 </div>
@@ -62,8 +72,8 @@
                     <td>{{item.subUserNumAct}}</td>
                     <td>{{item.fetchStatus == true ? "已领取":"未领取"}}</td>
                     <td width="200px">
-                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="fetch(item)"><i class="fa fa-edit m-r-sm"></i>领取</button>
-                        <button ng-if="true" class="btn btn-xs btn-default" type="button" ng-click="unfetch(item)"><i class="fa fa-edit m-r-sm"></i>取消</button>
+                        <button ng-if="item.fetchStatus == false" class="btn btn-xs btn-primary" type="button" ng-click="fetch(item)"><i class="fa fa-edit m-r-sm"></i>领取</button>
+                        <button ng-if="item.fetchStatus == true" class="btn btn-xs btn-danger" type="button" ng-click="unfetch(item)"><i class="fa fa-edit m-r-sm"></i>取消</button>
                     </td>
                 </tr>
                 </tbody>

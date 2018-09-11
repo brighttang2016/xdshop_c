@@ -16,7 +16,7 @@ angular.module('com.app.publish.controller')
         // $scope.showUserInfo();
 
         /**
-         * 如果已完成任务，则显示门票兑换信息
+         * 如果已完成任务（不管是否领取门票），显示门票兑换信息
          */
         if(item.isFinish){
             $scope.showTicketInfo();
@@ -37,7 +37,7 @@ angular.module('com.app.publish.controller')
             /**
              * 查询user信息
              */
-            PublishService.getUserInfo(item.openId).then(function(response){
+            PublishService.getUserInfo(item.publishId,item.openId).then(function(response){
                 $scope.user = response.data;
             });
             return;

@@ -27,7 +27,8 @@ var publishShowApp = angular.module('publishShowApp',[
     'cgBusy',
     'com.tlms.sys.service',
     'com.tlms.sys.controller',
-    'com.app.publish'
+    'com.app.publish',
+    'com.app.customer'
 
 ]);
 publishShowApp.config(function($httpProvider) {

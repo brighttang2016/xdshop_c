@@ -2,8 +2,8 @@
  * Created by pujjr on 2017/7/26.
  */
 angular.module('com.app.publish.controller')
-    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout','ArticleService','DomService','UtilsService',
-        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout,ArticleService,DomService,UtilsService){
+    .controller('PublishController',['$scope','$rootScope','$state','PublishService','$compile','toaster','$stateParams','$uibModal','CookieService','$window','CkeditorService','$timeout','ArticleService','DomService','UtilsService','CustomerService',
+        function($scope,$rootScope,$state,PublishService,$compile,toaster,$stateParams,$uibModal,CookieService,$window,CkeditorService,$timeout,ArticleService,DomService,UtilsService,CustomerService){
         // console.log("11111111111111111111111");
         console.log($stateParams);
        /* CKEDITOR.replace( 'scenicDesc' );
@@ -112,6 +112,8 @@ angular.module('com.app.publish.controller')
          * 初始化发布展示页内容开始
          */
         $scope.initPublishShow = function(){
+            //初始化：未领取
+            $scope.isFetchTicket = false;
             //当前客户是否已完成助力：true：已完成，false:未完成
             $scope.isFinish  = false;
             //获取参数
@@ -219,10 +221,11 @@ angular.module('com.app.publish.controller')
                              */
                             if($stateParams.openId == tempFetchUser.openId){
                                 $scope.isFetchTicket = true;
-                            }else{
-                                $scope.isFetchTicket = false;
                             }
                         }
+                        /**
+                         *如果顾客已领取，按钮显示查看我的订单
+                         */
                         if($scope.isFetchTicket){
                             $scope.btnName = "查看我的订单";
                         }
@@ -305,6 +308,51 @@ angular.module('com.app.publish.controller')
             item.publish = $scope.publish;
             //true：已领取，false：未领取
             item.isFetchTicket =  $scope.isFetchTicket;
+
+
+            /**
+             * 如果当前顾客已完成任务  并且未领取门票  点击领取后，自动领取门票
+             */
+            console.log("9999999999999999999999999999");
+            // console.log(item);
+            // console.log(item.isFinish == true);
+            // console.log(item.isFetchTicket == false);
+            // console.log(item.isFinish == true && item.isFetchTicket == false);
+            if(item.isFinish == true && item.isFetchTicket == false){
+                CustomerService.fetch(item.publishId,item.openId).then(function(response){
+                    console.log(response);
+                    if(response.successResponse == true){
+                        //门票领取成功
+                        toaster.pop('success', '操作提醒', response.message);
+                        //显示门票兑换凭证
+                        $scope.showImageModal(item);
+                    }else{
+                        //门票领取失败
+                        toaster.pop('error', '操作提醒', response.message);
+                    }
+                    /**
+                     * 重新加载活动展示页数据
+                     */
+                    $scope.initPublishShow(item);
+                });
+            }else{
+                /**
+                 * 如果用户未完成，展示分享给好友海报
+                 * 如果用户用户已领取，展示领取凭证
+                 * 如果用户已完成，展示领取凭证
+                 */
+                $scope.showImageModal(item);
+            }
+
+
+
+        };
+
+            /**
+             * 显示用户信息录入、用户分享海报、门票兑换凭证弹窗
+             */
+        $scope.showImageModal = function(item){
+            var item = item;
             var modalInstance = $uibModal.open({
                 animation: false,
                 ariaLabelledBy: 'modal-title',
