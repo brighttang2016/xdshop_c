@@ -179,11 +179,11 @@ angular.module('com.app.publish.controller')
                         var tempMobile = tempSubUser.mobile;
                         var tempNickName = tempSubUser.nickName;
                         try{
-                            $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                            $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
                         }catch(e){
                         }
                         try{
-                            $scope.subUserList[i].nickName =  tempNickName.substring(0,1)+"******";
+                            $scope.subUserList[i].nickName =  tempNickName.substring(0,1)+"**";
                         }catch(e){
                         }
 
@@ -207,13 +207,13 @@ angular.module('com.app.publish.controller')
                         for(var i = 0;i < $scope.fetchUserList.length;i++){
                             var tempFetchUser = $scope.fetchUserList[i];
                             var tempMobile = tempFetchUser.mobile;
-                            var tempNickName = tempFetchUser.nickName;
+                            var tempName = tempFetchUser.name;
                             try{
-                                $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(8,tempMobile.length);
+                                $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
                             }catch(e){
                             }
                             try{
-                                $scope.fetchUserList[i].nickName =  tempNickName.substring(0,1)+"******";
+                                $scope.fetchUserList[i].name =  tempName.substring(0,1)+"**";
                             }catch(e){
                             }
                             /**
