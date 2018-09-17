@@ -38,8 +38,8 @@ angular.module('com.app.publish.service')
         this.getSubUserList = function(publishId,openId){
             return TlmsRestangular.all("/service/subuser/").all(publishId).all(openId).getList();
         };
-         this.getFetchUserList= function(publishId){
-            return TlmsRestangular.all("/service/fetchuser/").all(publishId).getList();
+         this.getFetchUserList= function(){
+            return TlmsRestangular.all("/service/fetchuser/").getList();
         };
 
         this.getPosterOssUrl = function(publishId,openId){

@@ -116,6 +116,8 @@ angular.module('com.app.publish.controller')
             $scope.isFetchTicket = false;
             //当前客户是否已完成助力：true：已完成，false:未完成
             $scope.isFinish  = false;
+            //活动是否已结束：true：已结束，false：未结束
+            $scope.isEnd = true;
             //获取参数
             var openId = $stateParams.openId;
             var Authorization = $stateParams.Authorization;
@@ -159,91 +161,109 @@ angular.module('com.app.publish.controller')
                     /**
                      * 活动结束，不在走后续流程
                      */
-                    return;
+                    $scope.isEnd = true;
+                    // return;
                 }
-
 
                 /**
                  *  获取我的助力好友开始
                  */
-                PublishService.getSubUserList($stateParams.publishId,$stateParams.openId).then(function(response){
-                    // console.log("1111111111111");
-                    // console.log(response);
-                    $scope.subUserList = response;
-                    for(var i = 0;i < $scope.subUserList.length;i++){
-                        var tempSubUser = $scope.subUserList[i];
-                        // console.log("tempSubUser:");
-                        // console.log(tempSubUser);
-                        // console.log(tempSubUser.mobile);
-                        // console.log(tempSubUser.nickName);
-                        var tempMobile = tempSubUser.mobile;
-                        var tempNickName = tempSubUser.nickName;
-                        try{
-                            $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
-                        }catch(e){
-                        }
-                        try{
-                            $scope.subUserList[i].nickName =  tempNickName.substring(0,1)+"**";
-                        }catch(e){
-                        }
-
-                    }
-                    // console.log($scope.publish);
-                    // console.log($scope.subUserList);
-                    if($scope.subUserList.length >= $scope.publish.subUserNum){
-                        /*
-                        * 完成任务
-                        * */
-                        $scope.btnName = "已完成任务,点击领取";
-                        $scope.isFinish = true;
-                    }
-
-
-                    /**
-                     * 已领取免费门票顾客开始
-                     */
-                    PublishService.getFetchUserList($stateParams.publishId).then(function(response){
-                        $scope.fetchUserList = response;
-                        for(var i = 0;i < $scope.fetchUserList.length;i++){
-                            var tempFetchUser = $scope.fetchUserList[i];
-                            var tempMobile = tempFetchUser.mobile;
-                            var tempName = tempFetchUser.name;
-                            try{
-                                $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
-                            }catch(e){
-                            }
-                            try{
-                                $scope.fetchUserList[i].name =  tempName.substring(0,1)+"**";
-                            }catch(e){
-                            }
-                            /**
-                             * 当前openId已领取门票
-                             */
-                            if($stateParams.openId == tempFetchUser.openId){
-                                $scope.isFetchTicket = true;
-                            }
-                        }
-                        /**
-                         *如果顾客已领取，按钮显示查看我的订单
-                         */
-                        if($scope.isFetchTicket){
-                            $scope.btnName = "查看我的订单";
-                        }
-                    });
-                    /**
-                     * 已领取免费门票顾客结束
-                     */
-
-                });
+                $scope.getSubUserList();
                 /**
                  *  获取我的助力好友结束
                  */
             });
 
         };
+
         /**
-         * 初始化发布展示页内容开始
+         * 获取我的助力好友
          */
+        $scope.getSubUserList = function(){
+            PublishService.getSubUserList($stateParams.publishId,$stateParams.openId).then(function(response){
+                // console.log("1111111111111");
+                // console.log(response);
+                $scope.subUserList = response;
+                for(var i = 0;i < $scope.subUserList.length;i++){
+                    var tempSubUser = $scope.subUserList[i];
+                    // console.log("tempSubUser:");
+                    // console.log(tempSubUser);
+                    // console.log(tempSubUser.mobile);
+                    // console.log(tempSubUser.nickName);
+                    var tempMobile = tempSubUser.mobile;
+                    var tempNickName = tempSubUser.nickName;
+                    try{
+                        $scope.subUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
+                    }catch(e){
+                    }
+                    try{
+                        $scope.subUserList[i].nickName =  tempNickName.substring(0,4)+"**";
+                    }catch(e){
+                    }
+
+                }
+                // console.log($scope.publish);
+                // console.log($scope.subUserList);
+                if($scope.subUserList.length >= $scope.publish.subUserNum){
+                    /*
+                    * 完成任务
+                    * */
+                    $scope.btnName = "已完成任务,点击领取";
+                    $scope.isFinish = true;
+                }
+
+                /**
+                 * 获取已领取免费门票顾客开始
+                 */
+                $rootScope.resetPage();
+                $scope.getFetchUserList();
+                /**
+                 * 获取已领取免费门票顾客结束
+                 */
+            });
+        };
+
+
+
+        /**
+         * 获取已领取客户
+         */
+        $scope.getFetchUserList = function(){
+            $scope.vm.publishId = $stateParams.publishId;
+            PublishService.getFetchUserList().then(function(response){
+                $scope.fetchUserList = response;
+                for(var i = 0;i < $scope.fetchUserList.length;i++){
+                    var tempFetchUser = $scope.fetchUserList[i];
+                    var tempMobile = tempFetchUser.mobile;
+                    var tempName = tempFetchUser.name;
+                    try{
+                        $scope.fetchUserList[i].mobile =  tempMobile.substring(0,3)+"****"+tempMobile.substring(7,tempMobile.length);
+                    }catch(e){
+                    }
+                    try{
+                        $scope.fetchUserList[i].name =  tempName.substring(0,1)+"**";
+                    }catch(e){
+                    }
+                    /**
+                     * 当前openId已领取门票
+                     */
+                    if($stateParams.openId == tempFetchUser.openId){
+                        $scope.isFetchTicket = true;
+                    }
+                }
+
+                if($scope.isEnd == true){
+                    $scope.btnName = "活动已结束";
+                }else{
+                    /**
+                     *如果顾客已领取，按钮显示查看我的订单
+                     */
+                    if($scope.isFetchTicket){
+                        $scope.btnName = "查看我的订单";
+                    }
+                }
+            });
+        };
 
 
         //初始化发布列表
@@ -297,6 +317,9 @@ angular.module('com.app.publish.controller')
 
         //获取分享图片给好友
         $scope.publishShare = function(){
+            /**
+             * 活动如果已关闭，点击按钮，不触发任何操作
+             */
             if(!$scope.publish.openFlag){
                 return;
             }

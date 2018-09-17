@@ -63,6 +63,7 @@ publishShowApp.factory('TlmsRestangular',function(Restangular, $state, $rootScop
                 'Authorization': $rootScope.Authorization
             };
             angular.extend(newHeaders,headers);
+
             return {
                 headers: newHeaders,
                 params:$rootScope.vm
@@ -83,8 +84,7 @@ publishShowApp.factory('TlmsRestangular',function(Restangular, $state, $rootScop
             }
             else {
                 // modal.error("查询数据错误，请重试！");
-            }
-            ;
+            };
         });
         configurer.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
             if (data.successResponse == false) {
@@ -98,6 +98,8 @@ publishShowApp.factory('TlmsRestangular',function(Restangular, $state, $rootScop
                     } else {
                         //如果为getList操作返回的不是Array对象则为翻页数据需特殊处理
                         $rootScope.paginationInfo.totalItem = data.totalItem;
+                        // console.log("5555555555555555555555555555");
+                        // console.log($rootScope.paginationInfo);
                         return data.data;
                     }
                 } else {

@@ -13,9 +13,9 @@ angular.module('com.app.callcenter.directive')
             templateUrl:'app/module-callcenter/tpl/callcenter.html',
             require:'?^callCenterDirectiveParent',
             link:function(scope,el,attr,ctrl){
-                console.log("555555555555555555555555555555555555");
-                console.log(ctrl);
-                console.log(scope);
+                // console.log("555555555555555555555555555555555555");
+                // console.log(ctrl);
+                // console.log(scope);
                 scope.checkIn = ctrl.checkIn;
                 scope.checkOut = ctrl.checkOut;
                 scope.seatBusy = ctrl.seatBusy;

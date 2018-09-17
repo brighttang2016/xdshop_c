@@ -10,19 +10,19 @@
 
     <div class="container" style="background-color:#808080; color:#ffffff">
         <div class="row">
-            <div class="col-xs-12 col-md-6 col-lg-8">
+            <div class="col-xs-12 col-md-12 col-lg-12">
                 <!--<h4>【爱在曼谷园】水陆联欢，日夜通玩，快带心爱的TA来免费畅玩吧！</h4>-->
                 <h3>{{ publish.title}}</h3>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-6 col-md-6 col-lg-8 text-left">
+            <div class="col-xs-6 col-md-12 col-lg-12 text-left">
                 <h5 style="color:#FF8C07">
                     <i ng-repeat="item in starArray" class="fa {{item.starType}}"></i>
                 </h5>
             </div>
-            <!--<div class="col-xs-6 col-md-6 col-lg-8 text-right">
+            <!--<div class="col-xs-6 col-md-12 col-lg-12 text-right">
                 <span class="label label-success">2000人关注</span>
             </div>-->
         </div>
@@ -32,13 +32,13 @@
     <!--价格-->
     <div class="container">
         <div class="row text-left">
-            <div class="col-xs-2 col-md-6 col-lg-8">
+            <div class="col-xs-2 col-md-12 col-lg-12">
                 <i class="fa fa-yen m-r-sm"></i>0
             </div>
-            <div class="col-xs-6 col-md-6 col-lg-8">
+            <div class="col-xs-6 col-md-12 col-lg-12">
                 <del>参考价格：{{publish.priceInit}}</del>
             </div>
-            <div class="col-xs-4 col-md-6 col-lg-8">
+            <div class="col-xs-4 col-md-12 col-lg-12">
                 剩余：{{publish.ticketRemain}}张
             </div>
         </div>
@@ -48,7 +48,7 @@
     <!--活动规则-->
     <div class="container">
         <div class="row text-left">
-            <div class="col-xs-12 col-md-6 col-lg-8" id="publishRule">
+            <div class="col-xs-12 col-md-12 col-lg-12" id="publishRule">
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
                     </h3>
                 </label>
             </div>
-            <div class="col-xs-12 col-md-6 col-lg-8" id="scenicDesc">
+            <div class="col-xs-12 col-md-12 col-lg-12" id="scenicDesc">
             </div>
         </div>
     </div>
@@ -77,20 +77,19 @@
                     </h3>
                 </label>
             </div>
-            <div class="col-xs-12 col-md-6 col-lg-8">
-                <div class="row" ng-repeat="item in subUserList">
-                    <label class="col-xs-6 text-right">{{item.nickName}}</label>
-                    <label class="col-xs-6 text-left">{{item.mobile}}</label>
-                </div>
+        </div>
+    </div>
+    <div class="container" ng-if="subUserList.length > 0">
+        <div class="col-xs-12 col-md-12 col-lg-12  label label-primary">
+            <div class="row" ng-repeat="item in subUserList">
+                <label class="col-xs-12 text-center">{{item.nickName}}</label>
             </div>
         </div>
     </div>
 
-
-
     <!--已免费领取-->
-    <div class="container">
-        <div class="row text-left">
+    <div class="container" style="border:0px solid red">
+        <div class="row text-left" style="border:0px solid yellow">
             <div class="form-group form-group-sm">
                 <label class="col-xs-12 control-label text-left">
                     <h3>
@@ -98,14 +97,58 @@
                     </h3>
                 </label>
             </div>
-            <div class="col-xs-12 col-md-6 col-lg-8">
-                <div class="row" ng-repeat="item in fetchUserList">
-                    <label class="col-xs-6 text-right">{{item.name}}</label>
-                    <label class="col-xs-6 text-left">{{item.mobile}}</label>
-                </div>
+        </div>
+    </div>
+    <div class="container" ng-if="fetchUserList.length > 0" style="border:0px solid red;padding-left:15%;padding-right:15%;">
+        <div class="col-xs-12 col-md-12 col-lg-12 label label-default" style="background-color:#E7ECED;color:black">
+            <div class="row" ng-repeat="item in fetchUserList">
+                <label class="col-xs-5 text-right">{{item.name}}</label>
+                <label class="col-xs-7 text-left">{{item.mobile}}</label>
             </div>
         </div>
     </div>
+    <div class="container" style="border:0px solid red">
+        <div class="col-xs-12 col-md-12 col-lg-12" align="center" style="border:0px solid red" ng-if="paginationInfo.totalItem>0">
+            <ul uib-pagination
+                total-items="paginationInfo.totalItem"
+                ng-model="paginationInfo.curPage"
+                max-size="paginationInfo.maxSize"
+                items-per-page="paginationInfo.pageSize"
+                class="pagination-sm"
+                boundary-links="false"
+                force-ellipses="true"
+                previous-text="上一页"
+                next-text="下一页"
+                first-text="首页"
+                last-text="尾页"
+                rotate="true"
+                force-ellipses="true"
+                ng-change="getFetchUserList()">
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    <!--<div class="has-divider has-divider&#45;&#45;dark"></div>
+    <div class="toolbar">
+        <div class="toolbar__left mr++">
+                    <span ng-if="paginationInfo.totalItem==0">
+                        无查询结果
+                    </span>
+        </div>
+        <span class="toolbar__label fs-title"></span>
+        <div class="toolbar__right" ng-if="paginationInfo.totalItem>0">
+            <div>
+                <ul uib-pagination total-items="paginationInfo.totalItem" ng-model="paginationInfo.curPage" max-size="paginationInfo.maxSize" class="pagination-sm" boundary-links="true" force-ellipses="true"
+                    previous-text="上页" next-text="下页" first-text="首页"
+                    last-text="尾页"
+                    ng-change="getFetchUserList()"></ul>
+            </div>
+        </div>
+    </div>-->
+
 
     <!--底部导航栏-->
   <!-- <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation" style="background-color:#FF8C07;">

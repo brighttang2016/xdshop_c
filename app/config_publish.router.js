@@ -42,7 +42,7 @@ angular.module('publishShowApp')
                   totalItem: 0,
                   pageSize: 10,
                   curPage: 1,
-                  maxSize: 5
+                  maxSize: 3
               };
               $rootScope.vm = {};
           };
@@ -51,7 +51,7 @@ angular.module('publishShowApp')
                   totalItem: 0,
                   pageSize: 10,
                   curPage: 1,
-                  maxSize: 5
+                  maxSize: 3
               };
           };
 

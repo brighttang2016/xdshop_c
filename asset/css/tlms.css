@@ -34,6 +34,7 @@ p-style {
     background-color:#FF8C07;
     position: fixed;
     bottom: 0;
+    z-index:2;
 }
 
 .publishshow-hidden{
