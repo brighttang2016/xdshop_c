@@ -7,12 +7,14 @@
 angular.module('com.app.publish',[
     'com.app.publish.directive',
     'com.app.publish.controller',
-    'com.app.publish.service'
+    'com.app.publish.service',
+    'com.app.publish.directive'
 ]);
 
 angular.module('com.app.publish.directive',[]);
 angular.module('com.app.publish.controller',[]);
 angular.module('com.app.publish.service',[]);
+angular.module('com.app.publish.directive',[]);
 
 angular.module('myApp')
     .config(function($stateProvider,$urlRouterProvider){

@@ -117,7 +117,7 @@ angular.module('com.app.publish.controller')
             //当前客户是否已完成助力：true：已完成，false:未完成
             $scope.isFinish  = false;
             //活动是否已结束：true：已结束，false：未结束
-            $scope.isEnd = true;
+            $scope.isEnd = false;
             //获取参数
             var openId = $stateParams.openId;
             var Authorization = $stateParams.Authorization;

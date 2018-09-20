@@ -3,21 +3,31 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>指令测试</title>
-    <script src="../../../bower_components/angular/angular.js"></script>
-    <!--<script src="../../js/directive/directive.min.js"></script>-->
-    <script src="../../js/all.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/tlms.min.css"/>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="directive.js"></script>
+    <script src="template.js"></script>
 </head>
 <body>
-    <div my-directive></div>
+    <div>
+        <div>dom元素替换:</div>
+        <div my-directive></div>
+    </div>
+    <hr/>
+
     <div ng-init="test='brighttang'">
         指令中使用表达式：{{test}}
     </div>
+    <hr/>
 
-    <div my-directive2
-         my-url="http://www.baidu.com"
-         my-link-text="my-directive2跳转百度(向指令中传递数据)">
+    <div>
+        <div>向指令内传值：</div>
+        <div my-directive2
+             my-url-tang="http://www.baidu.com"
+             my-link-text="my-directive2跳转百度(向指令中传递数据)">
+        </div>
     </div>
+    <hr/>
+
 
     <div class="border-style">
         输入需要跳转到地址(指令外)<input type="text" ng-model="myOutUrl"/>
@@ -26,23 +36,25 @@
              my-link-text3="跳转到{{myOutUrl}}(向指令中传递数据)">
         </div>
     </div>
+    <hr/>
 
     <div class="border-style">
-        <p>说明：双向数据绑定测试</p>
+        <p>双向数据绑定测试:</p>
         输入需要跳转到地址(指令外)<input type="text" ng-model="theirUrl"/>
         <div my-directive4
              some-url="theirUrl"
              my-link-text4=" my-directive4跳转到{{theirUrl}}(向指令中传递数据)">
         </div>
     </div>
+    <hr/>
 
     <div ng-controller="SomeController" class="border-style">
         <p>说明：由于原型继承的关系，修改父级对象中的someBareValue会同时修改子对象中的值，但反之则不行</p>
-        {{ someBareValue }}
+        父作用域变量someBareValue值:{{ someBareValue }}
         <button ng-click="someAction()">Communicate to child（会修改子对象值）</button>
         <div ng-controller="ChildController">
-            {{ someBareValue }}
-            <p ng-bind="someBareValue"></p>
+            子作用域变量someBareValue：{{ someBareValue }}
+           <!-- <p ng-bind="someBareValue"></p>-->
             <button ng-click="childAction()">Communicate to parent（不会修改父对象值）</button>
         </div>
     </div>
