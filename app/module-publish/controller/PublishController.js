@@ -155,9 +155,10 @@ angular.module('com.app.publish.controller')
                 DomService.appendRichText('scenicDesc',$scope.publish.scenicDesc);
 
                 if($scope.publish.openFlag){
-                    $scope.btnName = "参与免单";
+                    $scope.isEnd = false;
+                    // $scope.btnName = "参与免单";
                 }else{
-                    $scope.btnName = "活动已结束";
+                    // $scope.btnName = "活动已结束";
                     /**
                      * 活动结束，不在走后续流程
                      */
@@ -208,7 +209,7 @@ angular.module('com.app.publish.controller')
                     /*
                     * 完成任务
                     * */
-                    $scope.btnName = "已完成任务,点击领取";
+                    // $scope.btnName = "已完成任务,点击领取";
                     $scope.isFinish = true;
                 }
 
@@ -222,8 +223,6 @@ angular.module('com.app.publish.controller')
                  */
             });
         };
-
-
 
         /**
          * 获取已领取客户
@@ -247,20 +246,37 @@ angular.module('com.app.publish.controller')
                     /**
                      * 当前openId已领取门票
                      */
-                    if($stateParams.openId == tempFetchUser.openId){
+                    /*if($stateParams.openId == tempFetchUser.openId){
                         $scope.isFetchTicket = true;
-                    }
+                    }*/
                 }
 
-                if($scope.isEnd == true){
+               /* if($scope.isEnd == true){
                     $scope.btnName = "活动已结束";
                 }else{
-                    /**
-                     *如果顾客已领取，按钮显示查看我的订单
-                     */
-                    if($scope.isFetchTicket){
-                        $scope.btnName = "查看我的订单";
-                    }
+                    $scope.getFetchStatus();
+                }*/
+                $scope.getFetchStatus();
+            });
+        };
+
+        //获取门票领用状态
+        $scope.getFetchStatus = function(){
+            PublishService.getFetchStatus($stateParams.publishId,$stateParams.openId).then(function(response){
+                /**
+                 * 获取用户当前活动领用状态
+                 * 如果顾客已领取，按钮显示查看我的订单
+                 */
+                var fetchStatus = response.data;
+                if($scope.isEnd == true){
+                    $scope.btnName = "活动已结束";
+                }else if(fetchStatus == true){
+                    $scope.isFetchTicket = true;
+                    $scope.btnName = "查看我的订单";
+                }else if($scope.isFinish == true){
+                    $scope.btnName = "已完成任务,点击领取";
+                }else if($scope.isEnd  == false){
+                    $scope.btnName = "参与免单";
                 }
             });
         };

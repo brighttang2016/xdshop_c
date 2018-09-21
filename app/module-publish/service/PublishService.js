@@ -56,6 +56,10 @@ angular.module('com.app.publish.service')
             return TlmsRestangular.one("/service/user/share/").one(publishId).one(openId).get();
         };
 
+        //获取门票领用状态
+        this.getFetchStatus = function(publishId,openId){
+            return TlmsRestangular.one("/service/fetchStatus/").one(publishId).one(openId).get();
+        };
 
         /*return {
             "getPublishList":getPublishList,
